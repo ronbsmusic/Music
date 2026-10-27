@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>מסך מוזיקה</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0b0e">
+<style>
+:root{--bg:#0b0b0e;--fg:#f4f2ee;--dim:rgba(244,242,238,.32);--mid:rgba(244,242,238,.6);--acc:#e8c27a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);overflow:hidden;
+ font-family:-apple-system,"Helvetica Neue","Segoe UI",Arial,sans-serif}
+#bg{position:fixed;top:-10%;left:-10%;width:120%;height:120%;background-size:cover;background-position:center;
+ filter:blur(70px) saturate(1.3) brightness(.45);-webkit-filter:blur(70px) saturate(1.3) brightness(.45);
+ transition:opacity .8s;opacity:0}
+#shade{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(11,11,14,.25),rgba(11,11,14,.7))}
+#app{position:relative;height:100%;display:flex;flex-direction:column;padding:4vh 5vw 3vh}
+#stage{flex:1;min-height:0;display:flex;align-items:center}
+#left{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;margin-right:5vw;max-width:46vw}
+#cover{width:min(42vw,66vh);height:min(42vw,66vh);border-radius:14px;background:#1a1a20 center/cover no-repeat;
+ box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#meta{margin-top:3vh;width:100%}
+#title{font-size:clamp(22px,3.4vh,40px);font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#artist{font-size:clamp(16px,2.4vh,28px);color:var(--mid);margin-top:.6vh;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lyrics{flex:1;min-width:0;height:100%;position:relative;overflow:hidden;
+ -webkit-mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent)}
+#lines{position:absolute;left:0;right:0;top:0;transition:transform .55s cubic-bezier(.3,.7,.2,1);-webkit-transition:-webkit-transform .55s cubic-bezier(.3,.7,.2,1)}
+.l{font-size:clamp(24px,4.4vh,50px);font-weight:700;line-height:1.3;padding:1.1vh 0;color:var(--dim);
+ transition:color .4s,opacity .4s;text-align:start}
+.l.on{color:var(--fg)}
+.l.past{color:rgba(244,242,238,.2)}
+#note{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-size:clamp(18px,2.6vh,30px);color:var(--dim)}
+#bar{height:5px;border-radius:3px;background:rgba(244,242,238,.15);margin:2vh 0 1.5vh;overflow:hidden}
+#fill{height:100%;width:0;background:var(--acc)}
+#ctl{display:flex;justify-content:center;align-items:center;padding-bottom:1vh}
+.b{border:0;background:rgba(244,242,238,.1);color:var(--fg);border-radius:50%;width:min(15vh,17vw);height:min(15vh,17vw);margin:0 3vw;
+ display:flex;align-items:center;justify-content:center;padding:0}
+.b:active{background:rgba(244,242,238,.28);transform:scale(.94)}
+.b.big{width:min(19vh,21vw);height:min(19vh,21vw);background:var(--fg);color:#0b0b0e}
+.b.big:active{background:var(--acc)}
+.b svg{width:42%;height:42%;fill:currentColor}
+#setup{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:none;align-items:center;justify-content:center;padding:6vw;z-index:9;overflow:auto}
+#setup .box{max-width:640px;width:100%}
+#setup h1{font-size:34px;margin:0 0 14px}
+#setup p{color:var(--mid);line-height:1.6;font-size:18px;margin:10px 0}
+#setup code{display:block;background:#18181d;padding:12px 14px;border-radius:8px;color:var(--acc);font-size:16px;word-break:break-all;-webkit-user-select:text;user-select:text;margin:6px 0}
+#setup input{width:100%;font-size:20px;padding:14px;border-radius:10px;border:1px solid #333;background:#15151a;color:var(--fg);-webkit-user-select:text;user-select:text;margin:6px 0 14px}
+#go{font-size:20px;font-weight:700;padding:16px 30px;border:0;border-radius:12px;background:var(--acc);color:#0b0b0e}
+#err{color:#ff8a7a;font-size:16px;margin-top:12px}
+@media (orientation:portrait){
+ #stage{flex-direction:column;justify-content:flex-start}
+ #left{margin:0 0 3vh;max-width:none;width:100%;align-items:center;text-align:center}
+ #cover{width:min(82vw,44vh);height:min(82vw,44vh)}
+ #lyrics{width:100%}
+ .b{margin:0 4vw;width:min(17vw,12vh);height:min(17vw,12vh)}
+ .b.big{width:min(24vw,16vh);height:min(24vw,16vh)}
+}
+</style>
+</head>
+<body>
+<div id="bg"></div><div id="shade"></div>
+
+<div id="app">
+ <div id="stage">
+  <div id="left">
+   <div id="cover"></div>
+   <div id="meta"><div id="title">לא מתנגן כלום</div><div id="artist">פתחו ספוטיפיי והתחילו שיר</div></div>
+  </div>
+  <div id="lyrics"><div id="lines"></div><div id="note"></div></div>
+ </div>
+ <div id="bar"><div id="fill"></div></div>
+ <div id="ctl">
+  <button class="b" id="prev" aria-label="הקודם"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14L9.5 12z"/></svg></button>
+  <button class="b big" id="pp" aria-label="נגן / השהה"><svg id="ppi" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+  <button class="b" id="next" aria-label="הבא"><svg viewBox="0 0 24 24"><path d="M15.5 5H18v14h-2.5zM4 5l10.5 7L4 19z"/></svg></button>
+ </div>
+</div>
+
+<div id="setup"><div class="box">
+ <h1>חיבור לספוטיפיי</h1>
+ <p>1. ב-developer.spotify.com/dashboard צרו אפליקציה חדשה.</p>
+ <p>2. הדביקו אצלה ב-Redirect URI בדיוק את הכתובת הזאת:</p>
+ <code id="ruri"></code>
+ <p>3. העתיקו את ה-Client ID והדביקו כאן:</p>
+ <input id="cid" placeholder="Client ID" autocapitalize="off" autocorrect="off" spellcheck="false">
+ <button id="go">התחברות</button>
+ <div id="err"></div>
+</div></div>
+
+<script>
+(function(){
+var SCOPES='user-read-playback-state user-modify-playback-state user-read-currently-playing';
+var REDIRECT=location.origin+location.pathname;
+var $=function(id){return document.getElementById(id)};
+var LS={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
+
+var S={trackId:null,playing:false,progress:0,stamp:0,duration:0,lines:[],plain:null,active:-1,busy:false};
+
+/* ---------- Auth (PKCE, no server needed) ---------- */
+function rand(n){var a=new Uint8Array(n),s='',c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';crypto.getRandomValues(a);for(var i=0;i<n;i++)s+=c[a[i]%c.length];return s}
+function b64(buf){var s='',a=new Uint8Array(buf);for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function showSetup(msg){$('setup').style.display='flex';$('ruri').textContent=REDIRECT;$('cid').value=LS.get('cid')||'';$('err').textContent=msg||''}
+function login(){
+ var cid=$('cid').value.replace(/\s/g,'');
+ if(!cid){$('err').textContent='חסר Client ID';return}
+ LS.set('cid',cid);
+ var v=rand(64);LS.set('verifier',v);
+ crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(h){
+  location.href='https://accounts.spotify.com/authorize?response_type=code&client_id='+encodeURIComponent(cid)+
+   '&scope='+encodeURIComponent(SCOPES)+'&redirect_uri='+encodeURIComponent(REDIRECT)+
+   '&code_challenge_method=S256&code_challenge='+b64(h);
+ });
+}
+function tokenReq(params){
+ params.client_id=LS.get('cid');
+ var body=Object.keys(params).map(function(k){return k+'='+encodeURIComponent(params[k])}).join('&');
+ return fetch('https://accounts.spotify.com/api/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+  .then(function(r){return r.json()}).then(function(d){
+   if(!d.access_token)throw new Error(d.error_description||'auth failed');
+   LS.set('at',d.access_token);LS.set('exp',String(Date.now()+d.expires_in*1000-60000));
+   if(d.refresh_token)LS.set('rt',d.refresh_token);
+  });
+}
+function ensureToken(){
+ if(LS.get('at')&&Date.now()<Number(LS.get('exp')||0))return Promise.resolve();
+ if(!LS.get('rt'))return Promise.reject(new Error('no token'));
+ return tokenReq({grant_type:'refresh_token',refresh_token:LS.get('rt')});
+}
+function api(method,path){
+ return ensureToken().then(function(){
+  return fetch('https://api.spotify.com/v1'+path,{method:method,headers:{Authorization:'Bearer '+LS.get('at')}});
+ }).then(function(r){
+  if(r.status===401){LS.del('at');LS.set('exp','0')}
+  return r;
+ });
+}
+
+/* ---------- Now playing ---------- */
+function poll(){
+ api('GET','/me/player/currently-playing').then(function(r){
+  if(r.status===204||r.status===202){idle();return null}
+  if(!r.ok)return null;
+  return r.json();
+ }).then(function(d){
+  if(!d||!d.item){return}
+  var t=d.item;
+  S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;
+  setPlayIcon();
+  if(t.id!==S.trackId){
+   S.trackId=t.id;
+   var img=(t.album.images&&t.album.images[0])?t.album.images[0].url:'';
+   $('cover').style.backgroundImage=img?'url('+img+')':'none';
+   $('bg').style.backgroundImage=img?'url('+img+')':'none';$('bg').style.opacity=1;
+   $('title').textContent=t.name;
+   $('artist').textContent=t.artists.map(function(a){return a.name}).join(', ');
+   document.title=t.name;
+   loadLyrics(t);
+  }
+ }).catch(function(){}).then(function(){setTimeout(poll,3000)});
+}
+function idle(){
+ S.playing=false;setPlayIcon();
+}
+
+/* ---------- Lyrics (LRCLIB, synced) ---------- */
+function parseLRC(txt){
+ var out=[],re=/\[(\d+):(\d+(?:\.\d+)?)\]/g;
+ txt.split('\n').forEach(function(line){
+  var m,times=[],last=0;re.lastIndex=0;
+  while((m=re.exec(line))){times.push(Number(m[1])*60000+Number(m[2])*1000);last=re.lastIndex}
+  var text=line.slice(last).trim();
+  times.forEach(function(ms){out.push({t:ms,s:text})});
+ });
+ out.sort(function(a,b){return a.t-b.t});
+ return out;
+}
+function loadLyrics(t){
+ var id=t.id;
+ S.lines=[];S.plain=null;S.active=-1;
+ $('lines').innerHTML='';$('lines').style.transform='translateY(0)';
+ $('note').textContent='';
+ var q='track_name='+encodeURIComponent(t.name)+'&artist_name='+encodeURIComponent(t.artists[0].name)+
+  '&album_name='+encodeURIComponent(t.album.name)+'&duration='+Math.round(t.duration_ms/1000);
+ fetch('https://lrclib.net/api/get?'+q).then(function(r){return r.ok?r.json():null})
+ .then(function(d){
+  if(!d){return fetch('https://lrclib.net/api/search?track_name='+encodeURIComponent(t.name)+'&artist_name='+encodeURIComponent(t.artists[0].name))
+   .then(function(r){return r.ok?r.json():[]}).then(function(a){
+    for(var i=0;i<a.length;i++){if(a[i].syncedLyrics)return a[i]}
+    return a[0]||null});}
+  return d;
+ }).then(function(d){
+  if(id!==S.trackId)return;
+  if(d&&d.syncedLyrics){S.lines=parseLRC(d.syncedLyrics);renderLines()}
+  else if(d&&d.plainLyrics){S.plain=d.plainLyrics;renderPlain()}
+  else $('note').textContent='אין מילים לשיר הזה';
+ }).catch(function(){if(id===S.trackId)$('note').textContent='לא הצלחתי לטעון מילים'});
+}
+function mkLine(text){var d=document.createElement('div');d.className='l';d.setAttribute('dir','auto');d.textContent=text||'♪';return d}
+function renderLines(){
+ var box=$('lines');box.innerHTML='';
+ S.lines.forEach(function(l){box.appendChild(mkLine(l.s))});
+ S.active=-1;
+}
+function renderPlain(){
+ var box=$('lines');box.innerHTML='';
+ S.plain.split('\n').forEach(function(s){var d=mkLine(s);d.className='l on';box.appendChild(d)});
+ $('lines').style.transform='translateY(0)';
+}
+function currentMs(){return S.progress+(S.playing?Date.now()-S.stamp:0)}
+function tick(){
+ var ms=currentMs();
+ if(S.duration)$('fill').style.width=Math.min(100,ms/S.duration*100)+'%';
+ if(S.lines.length){
+  var idx=-1,look=ms+350;
+  for(var i=0;i<S.lines.length;i++){if(S.lines[i].t<=look)idx=i;else break}
+  if(idx!==S.active){
+   var kids=$('lines').children;
+   for(var j=0;j<kids.length;j++){kids[j].className='l'+(j===idx?' on':(j<idx?' past':''))}
+   S.active=idx;
+   if(idx>=0){
+    var el=kids[idx],h=$('lyrics').clientHeight;
+    $('lines').style.transform='translateY('+(h/2-el.offsetTop-el.offsetHeight/2)+'px)';
+   }
+  }
+ }
+}
+
+/* ---------- Controls ---------- */
+function setPlayIcon(){
+ $('ppi').innerHTML=S.playing?'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';
+}
+function cmd(method,path,after){
+ api(method,path).then(function(){setTimeout(poll_once,after||350)}).catch(function(){});
+}
+function poll_once(){
+ api('GET','/me/player/currently-playing').then(function(r){return r.status===200?r.json():null}).then(function(d){
+  if(!d||!d.item)return;
+  S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();setPlayIcon();
+  if(d.item.id!==S.trackId){S.stamp=0;S.trackId=null}
+ }).catch(function(){});
+}
+$('pp').onclick=function(){S.progress=currentMs();S.stamp=Date.now();S.playing=!S.playing;setPlayIcon();cmd('PUT',S.playing?'/me/player/play':'/me/player/pause')};
+$('next').onclick=function(){cmd('POST','/me/player/next',700)};
+$('prev').onclick=function(){cmd('POST','/me/player/previous',700)};
+$('go').onclick=login;
+$('title').ondblclick=function(){showSetup()};
+
+/* ---------- Keep screen awake ---------- */
+function wake(){try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(function(){})}catch(e){}}
+document.addEventListener('visibilitychange',function(){if(!document.hidden)wake()});
+document.addEventListener('touchstart',wake,{passive:true});
+wake();
+
+/* ---------- Start ---------- */
+function start(){setInterval(tick,200);poll()}
+var p=new URLSearchParams(location.search);
+if(p.get('code')){
+ var code=p.get('code');history.replaceState({},'',REDIRECT);
+ tokenReq({grant_type:'authorization_code',code:code,redirect_uri:REDIRECT,code_verifier:LS.get('verifier')||''})
+  .then(start).catch(function(e){showSetup('ההתחברות נכשלה: '+e.message)});
+}else if(p.get('error')){history.replaceState({},'',REDIRECT);showSetup('ספוטיפיי סירבה: '+p.get('error'))}
+else if(LS.get('rt')){start()}
+else showSetup();
+})();
+</script>
+</body>
+</html>
