@@ -11,13 +11,12 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{margin:0;height:100%;background:#000;color:#fff;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif}
 .bg{position:fixed;top:-15%;left:-15%;width:130%;height:130%;background-size:cover;background-position:center;opacity:0;-webkit-filter:blur(80px) saturate(1.7) brightness(.6);filter:blur(80px) saturate(1.7) brightness(.6);transition:opacity 1.4s}
-#shade{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.45))}
+#shade{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.45));pointer-events:none}
 #pager{position:fixed;top:0;left:0;width:300%;height:100%;display:flex;transition:transform .55s cubic-bezier(.22,1,.36,1);-webkit-transition:-webkit-transform .55s cubic-bezier(.22,1,.36,1)}
 section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflow:hidden;display:flex;flex-direction:column}
-#dots{position:fixed;bottom:2vh;left:0;right:0;text-align:center;z-index:3}
+#dots{position:fixed;bottom:2vh;left:0;right:0;text-align:center;z-index:3;pointer-events:none}
 #dots i{display:inline-block;width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.28);margin:0 5px;transition:background .3s}
 #dots i.on{background:#fff}
-/* now playing */
 #stage{flex:1;min-height:0;display:flex;align-items:center}
 #left{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;margin-right:5vw;max-width:44vw}
 #cover{width:min(40vw,60vh);height:min(40vw,60vh);border-radius:12px;background:#1c1c1e center/cover no-repeat;box-shadow:0 24px 60px rgba(0,0,0,.55);transition:transform .7s cubic-bezier(.22,1,.36,1);-webkit-transition:-webkit-transform .7s cubic-bezier(.22,1,.36,1)}
@@ -33,15 +32,14 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 .l.on{opacity:1;transform:translateX(0) scale(1);-webkit-transform:translateX(0) scale(1)}
 #note{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-size:clamp(18px,2.6vh,30px);font-weight:600;color:rgba(255,255,255,.4)}
 #prog{display:flex;align-items:center;margin:1vh 0;font-size:15px;font-weight:500;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
-#barw{flex:1;padding:16px 0;margin:0 12px}
+#barw{flex:1;padding:16px 0;margin:0 12px;cursor:pointer;touch-action:pan-y}
 #bar{height:6px;border-radius:3px;background:rgba(255,255,255,.22);overflow:hidden}
-#fill{height:100%;width:0;background:#fff}
+#fill{height:100%;width:0;background:#fff;pointer-events:none}
 #ctl{display:flex;justify-content:center;align-items:center}
 .b{border:0;background:transparent;color:#fff;width:min(15vh,17vw);height:min(15vh,17vw);margin:0 4vw;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%}
 .b:active{opacity:.5;transform:scale(.9)}
 .b.big{width:min(20vh,22vw);height:min(20vh,22vw)}
 .b svg{width:56%;height:56%;fill:currentColor}.b.big svg{width:64%;height:64%}
-/* home */
 #p0{align-items:center;justify-content:center;text-align:center}
 #hclock{font-size:24vh;font-weight:200;letter-spacing:-.04em;line-height:1}
 #hdate{font-size:3.6vh;color:var(--mid);font-weight:500;margin-top:1vh}
@@ -51,7 +49,6 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 #wnext{display:flex;justify-content:center;margin-top:3vh}
 #wnext div{margin:0 3vw;display:flex;flex-direction:column;align-items:center;font-size:2.8vh}
 #wnext b{font-weight:500;color:var(--mid);font-size:2.2vh}#wnext em{font-style:normal;font-weight:600}
-/* controls */
 #p2{justify-content:center;max-width:760px;margin:0 auto}
 .sec{font-size:2.2vh;color:var(--mid);font-weight:600;margin:3vh 0 1.4vh}
 #vol{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:6px;background:rgba(255,255,255,.22);outline:0;margin:2vh 0}
@@ -63,7 +60,6 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 .dev.on{background:rgba(255,255,255,.9);color:#000}
 .np{display:none;text-align:center;color:var(--mid);font-size:2.6vh}
 .nop .pc,.nop .ctrl{display:none}.nop .np{display:block}
-/* night */
 #night{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;opacity:0;pointer-events:none;transition:opacity 1.6s;z-index:8;overflow:hidden}
 #night.on{opacity:1;pointer-events:auto}
 #glow{position:absolute;left:-20%;top:-20%;width:140%;height:140%;background-size:cover;-webkit-filter:blur(90px) saturate(1.6) brightness(.36);filter:blur(90px) saturate(1.6) brightness(.36);animation:drift 40s ease-in-out infinite alternate}
@@ -71,7 +67,6 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 #nclock{position:absolute;bottom:8vh;left:0;right:0;text-align:center;font-size:7vh;font-weight:200;color:rgba(255,255,255,.35)}
 #cfg{position:fixed;top:8px;right:8px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#fff;opacity:.2;font-size:22px;z-index:5}
 #nv{position:fixed;width:2px;height:2px;opacity:.02;pointer-events:none;top:0;left:0}
-/* setup */
 #setup{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;display:none;align-items:center;justify-content:center;padding:6vw;z-index:20;overflow:auto}
 #setup .box{max-width:640px;width:100%}
 #setup h1{font-size:30px;margin:0 0 12px}
@@ -81,7 +76,7 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 #setup textarea{height:90px;font-size:15px;color:var(--acc)}
 #setup button{font-size:18px;font-weight:700;padding:14px 26px;border:0;border-radius:12px;background:#2c2c2e;color:#fff;margin-bottom:8px}
 #go{background:var(--acc)!important}
-#err{color:#ff8a7a;margin:8px 0}
+#err{color:#ff8a7a;margin:8px 0;overflow-wrap:anywhere}
 #setup hr{border:0;border-top:1px solid #2c2c2e;margin:24px 0}
 @media (orientation:portrait){
  #stage{flex-direction:column;justify-content:flex-start}
@@ -104,9 +99,9 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
   </div>
   <div id="prog"><span id="tc">0:00</span><div id="barw"><div id="bar"><div id="fill"></div></div></div><span id="tr">-0:00</span></div>
   <div id="ctl" class="ctrl">
-   <button class="b" id="prev"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14L9.5 12z"/></svg></button>
-   <button class="b big" id="pp"><svg id="ppi" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-   <button class="b" id="next"><svg viewBox="0 0 24 24"><path d="M15.5 5H18v14h-2.5zM4 5l10.5 7L4 19z"/></svg></button>
+   <button class="b" id="prev" aria-label="השיר הקודם"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14L9.5 12z"/></svg></button>
+   <button class="b big" id="pp" aria-label="הפעל או השהה"><svg id="ppi" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+   <button class="b" id="next" aria-label="השיר הבא"><svg viewBox="0 0 24 24"><path d="M15.5 5H18v14h-2.5zM4 5l10.5 7L4 19z"/></svg></button>
   </div>
  </section>
  <section id="p2">
@@ -121,8 +116,7 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 <div id="dots"><i></i><i class="on"></i><i></i></div>
 <button id="cfg" aria-label="הגדרות">&#9881;</button>
 <div id="night"><div id="glow"></div><div id="nclock"></div></div>
-<video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
-
+<video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsbHN0AAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgcW1kPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
 <div id="setup"><div class="box">
  <h1>חיבור לספוטיפיי</h1>
  <p>ב-developer.spotify.com צור אפליקציה עם Redirect URI בדיוק כזה:</p>
@@ -138,33 +132,33 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
  <button id="useCode">חבר עם הקוד</button>
  <button id="closeSetup">סגור</button>
 </div></div>
-
 <script>
 (function(){
+'use strict';
 var SCOPES='user-read-playback-state user-modify-playback-state user-read-currently-playing';
 var REDIRECT=location.origin+location.pathname;
 var NIGHT_FROM=23,NIGHT_TO=7;
 var WX='https://api.open-meteo.com/v1/forecast?latitude=32.0871&longitude=34.8878&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FJerusalem&forecast_days=2';
 var $=function(id){return document.getElementById(id)};
 var LS={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
-var S={trackId:null,playing:false,progress:0,stamp:0,duration:0,lines:[],plain:null,active:-1,page:1,img:'',awake:0,lastPlay:Date.now(),rep:'off',shuf:false,volT:0,lastMin:''};
+var S={trackId:null,playing:false,progress:0,stamp:0,duration:0,lines:[],active:-1,page:1,img:'',awake:0,lastPlay:Date.now(),rep:'off',shuf:false,volT:0,lastMin:'',pollTimer:null,bgf:false,dragSeek:false};
 
-/* ---- auth (PKCE) ---- */
+/* Spotify PKCE authentication and device-to-device transfer */
 function rand(n){var a=new Uint8Array(n),s='',c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';crypto.getRandomValues(a);for(var i=0;i<n;i++)s+=c[a[i]%c.length];return s}
 function b64(buf){var s='',a=new Uint8Array(buf);for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function showSetup(msg){$('setup').style.display='flex';$('ruri').textContent=REDIRECT;$('cid').value=LS.get('cid')||'';$('err').textContent=msg||'';var rt=LS.get('rt'),c=LS.get('cid');if(rt&&c){$('tcode').value=btoa(c+'|'+rt);$('outbox').style.display='block'}else $('outbox').style.display='none'}
 function login(){
  var cid=$('cid').value.replace(/\s/g,'');if(!cid){$('err').textContent='חסר Client ID';return}
+ if(!window.crypto||!crypto.subtle){$('err').textContent='הדפדפן לא תומך בהתחברות המאובטחת הזו';return}
  LS.set('cid',cid);var v=rand(64);LS.set('verifier',v);
  crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(h){
   location.href='https://accounts.spotify.com/authorize?response_type=code&client_id='+encodeURIComponent(cid)+'&scope='+encodeURIComponent(SCOPES)+'&redirect_uri='+encodeURIComponent(REDIRECT)+'&code_challenge_method=S256&code_challenge='+b64(h);
- });
+ }).catch(function(e){$('err').textContent='לא הצלחתי להתחיל התחברות: '+e.message});
 }
 function tokenReq(p){
  p.client_id=LS.get('cid');
  var body=Object.keys(p).map(function(k){return k+'='+encodeURIComponent(p[k])}).join('&');
- return fetch('https://accounts.spotify.com/api/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){return r.json()}).then(function(d){
-  if(!d.access_token)throw new Error(d.error_description||'auth failed');
+ return fetch('https://accounts.spotify.com/api/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){return r.json().then(function(d){if(!r.ok||!d.access_token)throw new Error(d.error_description||d.error||'auth failed');return d})}).then(function(d){
   LS.set('at',d.access_token);LS.set('exp',String(Date.now()+d.expires_in*1000-60000));if(d.refresh_token)LS.set('rt',d.refresh_token);
  });
 }
@@ -176,15 +170,20 @@ function ensureToken(){
 function api(m,path,body){
  return ensureToken().then(function(){
   var o={method:m,headers:{Authorization:'Bearer '+LS.get('at')}};
-  if(body){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body)}
+  if(body!==undefined&&body!==null){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body)}
   return fetch('https://api.spotify.com/v1'+path,o);
- }).then(function(r){if(r.status===401){LS.del('at');LS.set('exp','0')}return r});
+ }).then(function(r){
+  if(r.status===401){LS.del('at');LS.set('exp','0')}
+  if(r.status===429){var ra=Number(r.headers.get('Retry-After')||2);throw new Error('rate limited:'+ra)}
+  if(r.status>=400)throw new Error('Spotify API '+r.status);
+  return r;
+ });
 }
 function put(path,body,after){
- api('PUT',path,body).then(function(){if(after)setTimeout(after,400)}).catch(function(){});
+ api('PUT',path,body).then(function(){if(after)setTimeout(after,500)}).catch(function(e){if(e.message==='no token')showSetup('נדרש חיבור מחדש')});
 }
 
-/* ---- pages ---- */
+/* Page navigation and touch */
 function go(i){
  S.page=i;var t='translateX('+(-i*33.3333)+'%)';$('pager').style.transform=t;$('pager').style.webkitTransform=t;
  var d=$('dots').children;for(var k=0;k<d.length;k++)d[k].className=k===i?'on':'';
@@ -193,26 +192,29 @@ function go(i){
 var tx=0,ty=0;
 document.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY;S.awake=Date.now()+30000;var v=$('nv');if(v.paused)v.play().catch(function(){})},{passive:true});
 document.addEventListener('touchend',function(e){
- if(e.target.id==='vol'||$('setup').style.display==='flex'||$('night').className==='on')return;
+ if(e.target.id==='vol'||e.target.closest('#setup')||$('night').className==='on')return;
  var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
  if(Math.abs(dx)>70&&Math.abs(dy)<70){go(Math.max(0,Math.min(2,S.page+(dx<0?1:-1))))}
 },{passive:true});
+document.addEventListener('click',function(){S.awake=Date.now()+30000;var v=$('nv');if(v.paused)v.play().catch(function(){})},{passive:true});
 
-/* ---- playback state ---- */
+/* Playback state */
 function setBg(img){
- var a=$('bg'),b=$('bg2'),show=S.bgf?a:b,hide=S.bgf?b:a;
- show.style.backgroundImage=img?'url('+img+')':'none';
+ var a=$('bg'),b=$('bg2'),show=S.bgf?b:a,hide=S.bgf?a:b;
+ show.style.backgroundImage=img?'url("'+img+'")':'none';
  setTimeout(function(){show.style.opacity=img?1:0;hide.style.opacity=0},60);S.bgf=!S.bgf;
 }
 function poll(){
  api('GET','/me/player').then(function(r){
-  if(r.status===204||r.status===202){idle();return null}
+  if(r.status===204){idle();return null}
   if(!r.ok)return null;return r.json();
- }).then(function(d){if(d&&d.item)apply(d)}).catch(function(e){if(String(e.message)==='no token')showSetup('נדרש חיבור מחדש')}).then(function(){setTimeout(poll,S.playing?3000:8000)});
+ }).then(function(d){if(d&&d.item)apply(d);else if(d&&d.device===null)idle()}).catch(function(e){if(e.message==='no token')showSetup('נדרש חיבור מחדש')}).then(function(){
+  clearTimeout(S.pollTimer);S.pollTimer=setTimeout(poll,S.playing?3000:8000);
+ });
 }
 function apply(d){
  var t=d.item,was=S.playing;
- S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;
+ S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms||0;
  S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||'off';if(S.playing)S.lastPlay=Date.now();
  $('shuf').className='pill'+(S.shuf?' on':'');
  $('rep').className='pill'+(S.rep!=='off'?' on':'');$('rep').textContent=S.rep==='track'?'חזרה על שיר':(S.rep==='context'?'חזרה על הכול':'חזרה');
@@ -222,20 +224,22 @@ function apply(d){
  if(t.id!==S.trackId){
   S.trackId=t.id;
   var imgs=(t.album&&t.album.images)||t.images||[];var img=imgs.length?imgs[0].url:'';S.img=img;
-  $('cover').style.backgroundImage=img?'url('+img+')':'none';setBg(img);$('glow').style.backgroundImage=img?'url('+img+')':'none';
-  $('title').textContent=t.name;
+  $('cover').style.backgroundImage=img?'url("'+img+'")':'none';setBg(img);$('glow').style.backgroundImage=img?'url("'+img+'")':'none';
+  $('title').textContent=t.name||'';
   $('artist').textContent=t.artists?t.artists.map(function(a){return a.name}).join(', '):(t.show?t.show.publisher:'');
-  if(t.artists)loadLyrics(t);else{S.lines=[];$('lines').innerHTML='';$('note').textContent=''}
+  if(t.artists&&t.artists.length)loadLyrics(t);else{S.lines=[];$('lines').innerHTML='';$('note').textContent=''}
  }
 }
-function idle(){S.playing=false;setPlayIcon()}
+function idle(){
+ S.playing=false;setPlayIcon();
+}
 function setPlayIcon(){
  $('cover').className=S.playing?'':'paused';
  $('ppi').innerHTML=S.playing?'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';
 }
-function currentMs(){return S.progress+(S.playing?Date.now()-S.stamp:0)}
+function currentMs(){return Math.max(0,S.progress+(S.playing?Date.now()-S.stamp:0))}
 
-/* ---- lyrics ---- */
+/* LRCLIB synced lyrics */
 function parseLRC(txt){
  var out=[],re=/\[(\d+):(\d+(?:\.\d+)?)\]/g;
  txt.split('\n').forEach(function(line){var m,ts=[],last=0;re.lastIndex=0;
@@ -256,13 +260,13 @@ function loadLyrics(t){
    for(var i=0;i<a.length;i++)if(a[i].syncedLyrics)return a[i];return a[0]||null});
  }).then(function(d){
   if(id!==S.trackId)return;
-  if(d&&d.syncedLyrics){S.lines=parseLRC(d.syncedLyrics);S.lines.forEach(function(l){$('lines').appendChild(mkLine(l.s))})}
-  else if(d&&d.plainLyrics){d.plainLyrics.split('\n').forEach(function(s){var e=mkLine(s);e.className+=' on';$('lines').appendChild(e)})}
+  if(d&&d.syncedLyrics){S.lines=parseLRC(d.syncedLyrics);S.lines.forEach(function(l){$('lines').appendChild(mkLine(l.s))});if(!S.lines.length)$('note').textContent='אין מילים לשיר הזה'}
+  else if(d&&d.plainLyrics){d.plainLyrics.split('\n').forEach(function(s){var e=mkLine(s);e.className+=' on';$('lines').appendChild(e)});$('note').textContent=''}
   else $('note').textContent='אין מילים לשיר הזה';
  }).catch(function(){if(id===S.trackId)$('note').textContent='לא הצלחתי לטעון מילים'});
 }
 
-/* ---- tick ---- */
+/* Clock, progress, lyrics and night mode */
 function fmt(ms){var t=Math.floor(Math.max(0,ms)/1000),m=Math.floor(t/60),r=t%60;return m+':'+(r<10?'0':'')+r}
 function pad(n){return n<10?'0'+n:''+n}
 function tick(){
@@ -275,7 +279,7 @@ function tick(){
    var k=$('lines').children;
    for(var j=0;j<k.length;j++)k[j].className='l'+(k[j].rtl?' rtl':'')+(j===idx?' on':(j<idx?' past':''));
    S.active=idx;
-   if(idx>=0){var el=k[idx],h=$('lyrics').clientHeight,y=h*.36-el.offsetTop-el.offsetHeight/2;$('lines').style.transform='translateY('+y+'px)';$('lines').style.webkitTransform='translateY('+y+'px)'}
+   if(idx>=0&&k[idx]){var el=k[idx],h=$('lyrics').clientHeight,y=h*.36-el.offsetTop-el.offsetHeight/2;$('lines').style.transform='translateY('+y+'px)';$('lines').style.webkitTransform='translateY('+y+'px)'}
   }
  }
  var m=pad(now.getHours())+':'+pad(now.getMinutes());
@@ -286,49 +290,56 @@ function tick(){
  if(!S.playing&&S.page===1&&Date.now()-S.lastPlay>90000)go(0);
 }
 
-/* ---- weather ---- */
+/* Petah Tikva weather */
 function wi(c){return c===0?'\u2600\uFE0F':c<=2?'\uD83C\uDF24':c===3?'\u2601\uFE0F':c<=48?'\uD83C\uDF2B':c<=67?'\uD83C\uDF27':c<=77?'\u2744\uFE0F':c<=82?'\uD83C\uDF26':'\u26C8'}
 function weather(){
- fetch(WX).then(function(r){return r.json()}).then(function(d){
+ fetch(WX).then(function(r){if(!r.ok)throw new Error('weather');return r.json()}).then(function(d){
   var c=d.current,h=d.hourly,i=h.time.indexOf(c.time.slice(0,13)+':00');if(i<0)i=0;
   $('wnow').innerHTML='<span>'+wi(c.weather_code)+'</span><span class="wt">'+Math.round(c.temperature_2m)+'\u00B0</span><span class="wr">\u2191'+Math.round(d.daily.temperature_2m_max[0])+'\u00B0 \u2193'+Math.round(d.daily.temperature_2m_min[0])+'\u00B0</span>';
   $('wnext').innerHTML=[3,6,9,12].map(function(k){var j=i+k;if(j>=h.time.length)return '';return '<div><b>'+h.time[j].slice(11,13)+':00</b><span>'+wi(h.weather_code[j])+'</span><em>'+Math.round(h.temperature_2m[j])+'\u00B0</em></div>'}).join('');
- }).catch(function(){});
+ }).catch(function(){ $('wnow').textContent='תחזית מזג האוויר לא זמינה';});
 }
 
-/* ---- controls ---- */
+/* Devices and controls */
 function loadDevs(){
- api('GET','/me/player/devices').then(function(r){return r.ok?r.json():null}).then(function(d){
-  if(!d)return;var box=$('devs');box.innerHTML='';
-  d.devices.forEach(function(v){var b=document.createElement('button');b.className='dev'+(v.is_active?' on':'');b.textContent=v.name;
+ api('GET','/me/player/devices').then(function(r){return r.json()}).then(function(d){
+  var box=$('devs');box.innerHTML='';
+  (d.devices||[]).forEach(function(v){var b=document.createElement('button');b.className='dev'+(v.is_active?' on':'');b.textContent=v.name;
    b.onclick=function(){put('/me/player',{device_ids:[v.id],play:S.playing},loadDevs)};box.appendChild(b)});
-  if(!d.devices.length)box.innerHTML='<div class="np" style="display:block">אין מכשירים פעילים. פתח את ספוטיפיי באחד מהם.</div>';
- }).catch(function(){});
+  if(!d.devices||!d.devices.length)box.innerHTML='<div class="np" style="display:block">אין מכשירים זמינים כרגע. פתח את Spotify במכשיר הרצוי.</div>';
+ }).catch(function(){ $('devs').textContent='לא הצלחתי לטעון מכשירים';});
 }
-$('pp').onclick=function(){S.progress=currentMs();S.stamp=Date.now();S.playing=!S.playing;setPlayIcon();put(S.playing?'/me/player/play':'/me/player/pause')};
+$('pp').onclick=function(){
+ var was=S.playing;S.progress=currentMs();S.stamp=Date.now();S.playing=!was;setPlayIcon();
+ put(S.playing?'/me/player/play':'/me/player/pause',null,poll);
+};
 $('next').onclick=function(){put('/me/player/next',null,poll)};
 $('prev').onclick=function(){put('/me/player/previous',null,poll)};
-$('barw').onclick=function(e){
- if(!S.duration)return;var r=$('bar').getBoundingClientRect(),p=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),ms=Math.round(p*S.duration);
- S.progress=ms;S.stamp=Date.now();put('/me/player/seek?position_ms='+ms);
-};
-$('vol').oninput=function(){var v=this.value;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put('/me/player/volume?volume_percent='+v)},200)};
-$('shuf').onclick=function(){S.shuf=!S.shuf;this.className='pill'+(S.shuf?' on':'');put('/me/player/shuffle?state='+S.shuf)};
-$('rep').onclick=function(){S.rep=S.rep==='off'?'context':(S.rep==='context'?'track':'off');put('/me/player/repeat?state='+S.rep,null,poll)};
+function seekAt(clientX){
+ if(!S.duration)return;var r=$('bar').getBoundingClientRect(),p=Math.max(0,Math.min(1,(clientX-r.left)/r.width)),ms=Math.round(p*S.duration);
+ S.progress=ms;S.stamp=Date.now();$('fill').style.width=(p*100)+'%';$('tc').textContent=fmt(ms);$('tr').textContent='-'+fmt(S.duration-ms);
+ put('/me/player/seek?position_ms='+ms,null,poll);
+}
+$('barw').addEventListener('click',function(e){seekAt(e.clientX)});
+$('barw').addEventListener('touchend',function(e){if(e.changedTouches&&e.changedTouches.length)seekAt(e.changedTouches[0].clientX)},{passive:true});
+$('vol').oninput=function(){var v=this.value;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put('/me/player/volume?volume_percent='+v)},250)};
+$('shuf').onclick=function(){S.shuf=!S.shuf;this.className='pill'+(S.shuf?' on':'');put('/me/player/shuffle?state='+S.shuf,null,poll)};
+$('rep').onclick=function(){S.rep=S.rep==='off'?'context':(S.rep==='context'?'track':'off');this.className='pill'+(S.rep!=='off'?' on':'');this.textContent=S.rep==='track'?'חזרה על שיר':(S.rep==='context'?'חזרה על הכול':'חזרה');put('/me/player/repeat?state='+S.rep,null,poll)};
 
-/* ---- setup ---- */
+/* Setup and transfer code */
 $('go').onclick=login;
 $('cfg').onclick=function(){showSetup()};
 $('closeSetup').onclick=function(){$('setup').style.display='none'};
-$('copy').onclick=function(){var t=$('tcode');t.select();t.setSelectionRange(0,99999);try{document.execCommand('copy');$('copy').textContent='הועתק'}catch(e){}};
+$('copy').onclick=function(){var t=$('tcode');t.select();t.setSelectionRange(0,99999);try{document.execCommand('copy');$('copy').textContent='הועתק'}catch(e){$('copy').textContent='סמן והעתק ידנית'}};
 $('useCode').onclick=function(){
- var raw=$('tin').value.replace(/[^A-Za-z0-9+\/=_-]/g,'').replace(/-/g,'+').replace(/_/g,'/');
+ var raw=$('tin').value.trim().replace(/\s/g,'').replace(/-/g,'+').replace(/_/g,'/');
+ while(raw.length%4)raw+='=';
  try{var d=atob(raw).split('|');if(d.length!==2||!d[0]||!d[1])throw 0;
   LS.set('cid',d[0]);LS.set('rt',d[1]);LS.del('at');LS.set('exp','0');location.reload();
- }catch(e){$('err').textContent='הקוד לא תקין (אורך '+raw.length+'). העתק אותו שוב במלואו'}
+ }catch(e){$('err').textContent='הקוד לא תקין. העתק אותו שוב במלואו, בלי רווחים'}
 };
 
-/* ---- start ---- */
+/* Start */
 function start(){setInterval(tick,200);tick();poll();weather();setInterval(weather,900000);go(1)}
 var p=new URLSearchParams(location.search);
 if(p.get('code')){
