@@ -86,10 +86,69 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
  .b{margin:0 3vw;width:min(18vw,12vh);height:min(18vw,12vh)}.b.big{width:min(26vw,16vh);height:min(26vw,16vh)}
  #hclock{font-size:16vw}
 }
+
+/* MUSIC 2.0 — expressive ambient light */
+#lightstorm{position:fixed;inset:-20%;z-index:0;pointer-events:none;overflow:hidden;opacity:.88;mix-blend-mode:screen;transition:opacity 1.5s}
+#lightstorm i{position:absolute;display:block;width:65vw;height:65vw;border-radius:50%;filter:blur(65px);-webkit-filter:blur(65px);opacity:.48;will-change:transform,background}
+#lightstorm i:nth-child(1){left:-7%;top:0;background:radial-gradient(circle,#ff3b87 0%,rgba(255,59,135,0) 68%);animation:storm1 17s ease-in-out infinite alternate}
+#lightstorm i:nth-child(2){right:-8%;top:5%;background:radial-gradient(circle,#5d5bff 0%,rgba(93,91,255,0) 68%);animation:storm2 21s ease-in-out infinite alternate}
+#lightstorm i:nth-child(3){left:20%;bottom:-22%;background:radial-gradient(circle,#00d5ff 0%,rgba(0,213,255,0) 68%);animation:storm3 19s ease-in-out infinite alternate}
+#lightstorm i:nth-child(4){right:20%;bottom:-25%;background:radial-gradient(circle,#ff9d35 0%,rgba(255,157,53,0) 68%);animation:storm2 25s ease-in-out infinite alternate-reverse}
+#lightstorm i:nth-child(5){left:35%;top:20%;width:45vw;height:45vw;background:radial-gradient(circle,#d63cff 0%,rgba(214,60,255,0) 70%);animation:storm1 13s ease-in-out infinite alternate-reverse}
+@keyframes storm1{0%{transform:translate(-7%,5%) scale(.8) rotate(0deg)}100%{transform:translate(23%,17%) scale(1.25) rotate(35deg)}}
+@keyframes storm2{0%{transform:translate(9%,-6%) scale(1.15)}100%{transform:translate(-20%,22%) scale(.78)}}
+@keyframes storm3{0%{transform:translate(-10%,12%) scale(.8)}100%{transform:translate(18%,-16%) scale(1.3)}}
+#shade{z-index:1;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.03),rgba(0,0,0,.46) 72%),linear-gradient(180deg,rgba(0,0,0,.16),rgba(0,0,0,.38))}
+#pager{z-index:2}
+#dots{z-index:4}
+#cover{border-radius:22px;box-shadow:0 25px 80px rgba(0,0,0,.55),0 0 55px rgba(255,255,255,.07);animation:coverFloat 7s ease-in-out infinite}
+#cover.paused{animation-play-state:paused}
+@keyframes coverFloat{0%,100%{translate:0 0;filter:saturate(1.04)}50%{translate:0 -7px;filter:saturate(1.24)}}
+#meta{position:relative;z-index:2;padding:1.2vh 1.4vw;border-radius:14px;background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(0,0,0,.02));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#title{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15;max-width:100%;overflow-wrap:anywhere;animation:metaIn .55s cubic-bezier(.2,.8,.2,1)}
+#artist{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.2;max-width:100%;animation:metaIn .75s cubic-bezier(.2,.8,.2,1)}
+@keyframes metaIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+#prog{position:relative;z-index:3;margin-top:1.7vh;margin-bottom:1.1vh;gap:2px}
+#barw{padding:10px 0;touch-action:none}
+#bar{height:5px;background:rgba(255,255,255,.28);overflow:visible}
+#fill{border-radius:5px;box-shadow:0 0 12px rgba(255,255,255,.5)}
+#ctl{position:relative;z-index:3}
+.b{margin:0 3vw;transition:transform .18s ease,opacity .18s ease;filter:drop-shadow(0 4px 18px rgba(0,0,0,.3))}
+.b.big{filter:drop-shadow(0 0 22px rgba(255,255,255,.12))}
+#p2{z-index:2}
+.pill{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08)}
+.pill.on{box-shadow:0 0 24px rgba(255,255,255,.18)}
+#night{z-index:8;background:#020204;transition:opacity 1.4s}
+#night.on{pointer-events:auto}
+#glow{opacity:.75;filter:blur(100px) saturate(2.6) brightness(.55);-webkit-filter:blur(100px) saturate(2.6) brightness(.55);animation:nightDrift 18s ease-in-out infinite alternate}
+@keyframes nightDrift{0%{transform:translate(-8%,-4%) scale(.9) rotate(0)}100%{transform:translate(8%,6%) scale(1.18) rotate(10deg)}}
+#nightcontent{position:absolute;inset:0;display:flex;align-items:center;gap:3vw;padding:5vw}
+#nightcover{width:min(20vw,24vh);height:min(20vw,24vh);flex:0 0 auto;border-radius:14px;background:#17171a center/cover no-repeat;opacity:.64;box-shadow:0 0 65px rgba(255,255,255,.08);animation:nightCoverFloat 12s ease-in-out infinite alternate}
+@keyframes nightCoverFloat{from{transform:translateY(4px) scale(.96)}to{transform:translateY(-5px) scale(1.02)}}
+#nightmeta{min-width:0;flex:1;opacity:.68}
+#nighttitle{font-size:clamp(18px,3.1vh,34px);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nightartist{font-size:clamp(14px,2.2vh,22px);color:#aaa;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nclock{position:static;flex:0 0 auto;text-align:right;font-size:clamp(32px,8vh,90px);font-weight:200;letter-spacing:-.04em;color:rgba(255,255,255,.42);min-width:2.7em}
+#toast{position:fixed;left:50%;bottom:6vh;transform:translate(-50%,15px);opacity:0;z-index:30;max-width:85vw;padding:12px 18px;border-radius:14px;background:rgba(25,25,28,.92);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:15px;text-align:center;pointer-events:none;transition:opacity .2s,transform .2s}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+body.playing #lightstorm{opacity:1}
+body:not(.playing) #lightstorm{opacity:.58}
+@media (prefers-reduced-motion:reduce){#lightstorm i,#cover,#nightcover,#glow{animation:none!important}}
+@media (orientation:portrait){
+ #nightcontent{flex-direction:column;justify-content:center;text-align:center;padding:8vw;gap:2vh}
+ #nightcover{width:min(32vw,20vh);height:min(32vw,20vh)}
+ #nightmeta{flex:0 1 auto;width:100%}
+ #nclock{text-align:center}
+ #meta{padding:1vh 2vw}
+ #title{font-size:clamp(20px,3vh,30px)}
+ #artist{font-size:clamp(16px,2.2vh,22px)}
+ #lightstorm i{width:95vw;height:95vw;filter:blur(50px);-webkit-filter:blur(50px)}
+}
+
 </style>
 </head>
 <body>
-<div class="bg" id="bg"></div><div class="bg" id="bg2"></div><div id="shade"></div>
+<div class="bg" id="bg"></div><div class="bg" id="bg2"></div><div id="lightstorm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div id="shade"></div>
 <div id="pager">
  <section id="p0"><div id="hclock"></div><div id="hdate"></div><div id="wx"><div id="wnow"></div><div id="wnext"></div></div></section>
  <section id="p1">
@@ -115,7 +174,7 @@ section{width:33.3333%;height:100%;padding:5vh 5vw 6vh;position:relative;overflo
 </div>
 <div id="dots"><i></i><i class="on"></i><i></i></div>
 <button id="cfg" aria-label="הגדרות">&#9881;</button>
-<div id="night"><div id="glow"></div><div id="nclock"></div></div>
+<div id="night"><div id="glow"></div><div id="nightcontent"><div id="nightcover"></div><div id="nightmeta"><div id="nighttitle">Music</div><div id="nightartist"></div></div><div id="nclock"></div></div></div><div id="toast" role="status"></div>
 <video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsbHN0AAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgcW1kPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
 <div id="setup"><div class="box">
  <h1>חיבור לספוטיפיי</h1>
@@ -179,8 +238,22 @@ function api(m,path,body){
   return r;
  });
 }
+var toastTimer=null;
+function toast(msg){
+ var el=$('toast');if(!el)return;el.textContent=msg;el.className='show';
+ clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.className=''},2800);
+}
 function put(path,body,after){
- api('PUT',path,body).then(function(){if(after)setTimeout(after,500)}).catch(function(e){if(e.message==='no token')showSetup('נדרש חיבור מחדש')});
+ api('PUT',path,body).then(function(r){
+  if(r.status===204||r.ok){if(after)setTimeout(after,650);return}
+  toast('Spotify לא אישרה את הפעולה');
+ }).catch(function(e){
+  if(e.message==='no token'){showSetup('נדרש חיבור מחדש');return}
+  if(e.message.indexOf('Spotify API 404')>=0)toast('לא נמצא נגן פעיל. פתח Spotify ובחר מכשיר.');
+  else if(e.message.indexOf('Spotify API 403')>=0)toast('Spotify לא מאפשרת את הפעולה כרגע. ודא שיש נגן פעיל.');
+  else if(e.message.indexOf('rate limited')>=0)toast('יותר מדי בקשות — נסה שוב בעוד רגע');
+  else toast('הפעולה נכשלה: '+e.message);
+ });
 }
 
 /* Page navigation and touch */
@@ -192,7 +265,7 @@ function go(i){
 var tx=0,ty=0;
 document.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY;S.awake=Date.now()+30000;var v=$('nv');if(v.paused)v.play().catch(function(){})},{passive:true});
 document.addEventListener('touchend',function(e){
- if(e.target.id==='vol'||e.target.closest('#setup')||$('night').className==='on')return;
+ if(e.target.id==='vol'||e.target.closest('#setup')||e.target.closest('#barw')||$('night').className==='on')return;
  var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
  if(Math.abs(dx)>70&&Math.abs(dy)<70){go(Math.max(0,Math.min(2,S.page+(dx<0?1:-1))))}
 },{passive:true});
@@ -214,7 +287,7 @@ function poll(){
 }
 function apply(d){
  var t=d.item,was=S.playing;
- S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms||0;
+ S.playing=!!d.is_playing;document.body.classList.toggle('playing',S.playing);S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms||0;
  S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||'off';if(S.playing)S.lastPlay=Date.now();
  $('shuf').className='pill'+(S.shuf?' on':'');
  $('rep').className='pill'+(S.rep!=='off'?' on':'');$('rep').textContent=S.rep==='track'?'חזרה על שיר':(S.rep==='context'?'חזרה על הכול':'חזרה');
@@ -224,14 +297,15 @@ function apply(d){
  if(t.id!==S.trackId){
   S.trackId=t.id;
   var imgs=(t.album&&t.album.images)||t.images||[];var img=imgs.length?imgs[0].url:'';S.img=img;
-  $('cover').style.backgroundImage=img?'url("'+img+'")':'none';setBg(img);$('glow').style.backgroundImage=img?'url("'+img+'")':'none';
+  $('cover').style.backgroundImage=img?'url("'+img+'")':'none';$('nightcover').style.backgroundImage=img?'url("'+img+'")':'none';setBg(img);$('glow').style.backgroundImage=img?'url("'+img+'")':'none';
   $('title').textContent=t.name||'';
-  $('artist').textContent=t.artists?t.artists.map(function(a){return a.name}).join(', '):(t.show?t.show.publisher:'');
+  $('artist').textContent=t.artists?t.artists.map(function(a){return a.name}).join(', '):(t.show?t.show.publisher:'');$('nighttitle').textContent=t.name||'Music';$('nightartist').textContent=t.artists?t.artists.map(function(a){return a.name}).join(', '):(t.show?t.show.publisher:'');
   if(t.artists&&t.artists.length)loadLyrics(t);else{S.lines=[];$('lines').innerHTML='';$('note').textContent=''}
  }
 }
 function idle(){
- S.playing=false;setPlayIcon();
+ S.playing=false;document.body.classList.remove('playing');setPlayIcon();
+ if(S.page===1)go(0);
 }
 function setPlayIcon(){
  $('cover').className=S.playing?'':'paused';
@@ -313,8 +387,8 @@ $('pp').onclick=function(){
  var was=S.playing;S.progress=currentMs();S.stamp=Date.now();S.playing=!was;setPlayIcon();
  put(S.playing?'/me/player/play':'/me/player/pause',null,poll);
 };
-$('next').onclick=function(){put('/me/player/next',null,poll)};
-$('prev').onclick=function(){put('/me/player/previous',null,poll)};
+$('next').onclick=function(){toast('מדלג לשיר הבא…');put('/me/player/next',null,poll)};
+$('prev').onclick=function(){toast('חוזר לשיר הקודם…');put('/me/player/previous',null,poll)};
 function seekAt(clientX){
  if(!S.duration)return;var r=$('bar').getBoundingClientRect(),p=Math.max(0,Math.min(1,(clientX-r.left)/r.width)),ms=Math.round(p*S.duration);
  S.progress=ms;S.stamp=Date.now();$('fill').style.width=(p*100)+'%';$('tc').textContent=fmt(ms);$('tr').textContent='-'+fmt(S.duration-ms);
