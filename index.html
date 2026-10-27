@@ -2,7 +2,7 @@
 <html lang="he" dir="ltr">
 <head>
 <meta charset="utf-8">
-<title>Music Panel</title>
+<title>Future Listening Room · Music Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -179,6 +179,7 @@ section{padding:4vh 3.4vw 5vh}
 #hclock{font-size:clamp(100px,22vh,240px);font-weight:200;text-shadow:0 0 50px rgba(167,139,250,.22);letter-spacing:-.065em}
 #hdate{font-size:clamp(20px,3.3vh,36px)}
 #wx{padding:2vh 3vw;border:1px solid var(--edge);border-radius:22px;background:rgba(9,8,24,.48);box-shadow:0 0 45px rgba(89,61,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#wx.weather-focus{box-shadow:0 0 0 2px rgba(190,166,255,.2),0 0 70px rgba(116,91,255,.25);border-color:rgba(211,193,255,.5)}
 #p2{isolation:isolate;padding-left:8vw;padding-right:8vw}
 #p2 .pc{width:100%;max-width:780px;padding:3vh 3vw;border:1px solid var(--edge);border-radius:26px;background:linear-gradient(145deg,rgba(15,12,36,.72),rgba(5,6,18,.54));box-shadow:0 20px 70px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .sec{font-size:clamp(17px,2.3vh,24px);letter-spacing:.02em;color:rgba(234,226,255,.78)}
@@ -216,6 +217,34 @@ section{padding:4vh 3.4vw 5vh}
  #hclock{font-size:18vw}
 }
 
+
+/* HYBRID LIQUID GLASS — final layout polish */
+#p1:before{inset:1.6vh 1vw 3.5vh;border-color:rgba(196,174,255,.16);background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(8,8,24,.08) 45%,rgba(174,80,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 60px rgba(112,73,255,.08)}
+#stage{min-height:0;overflow:visible}
+#left{flex-shrink:0}
+#lyrics{box-sizing:border-box;overflow:hidden;padding:2.2vh 1.6vw 2.5vh;border:1px solid rgba(205,190,255,.14);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(12,10,30,.22) 45%,rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 18px 55px rgba(0,0,0,.16),0 0 36px rgba(133,91,255,.07);-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);mask-image:linear-gradient(transparent,#000 10%,#000 88%,transparent);-webkit-mask-image:linear-gradient(transparent,#000 10%,#000 88%,transparent)}
+#lines{left:0;right:0;padding:0 .25vw;will-change:transform}
+.l{box-sizing:border-box;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:normal;padding:1.15vh .5vw;line-height:1.26}
+.l.rtl{text-align:right}
+#note{padding:0 1vw}
+#quickdock{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:12;display:flex;gap:7px;padding:7px;border-radius:999px;border:1px solid rgba(220,210,255,.23);background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(15,12,34,.62));box-shadow:0 10px 35px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.2);-webkit-backdrop-filter:blur(24px) saturate(1.5);backdrop-filter:blur(24px) saturate(1.5)}
+#quickdock button{min-width:52px;height:42px;padding:0 15px;border:1px solid transparent;border-radius:999px;background:transparent;color:rgba(255,255,255,.72);font:600 19px -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.02em}
+#quickdock button.active{color:#fff;background:linear-gradient(135deg,rgba(188,158,255,.42),rgba(104,77,221,.25));border-color:rgba(230,220,255,.3);box-shadow:0 0 22px rgba(152,113,255,.2),inset 0 1px 0 rgba(255,255,255,.18)}
+#quickdock button:active{transform:scale(.94)}
+#dots{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 54px);pointer-events:none}
+#toast{z-index:30}
+@media (orientation:landscape){
+ #stage{height:100%;max-height:100%}
+ #lyrics{min-height:0}
+}
+@media (orientation:portrait){
+ #quickdock{bottom:max(10px,env(safe-area-inset-bottom));gap:4px}
+ #quickdock button{min-width:48px;height:40px;font-size:17px;padding:0 12px}
+ #dots{bottom:calc(max(10px,env(safe-area-inset-bottom)) + 52px)}
+ #p1{padding-bottom:100px}
+ #lyrics{border-radius:20px;padding:1.2vh 3vw}
+}
+
 </style>
 </head>
 <body>
@@ -244,6 +273,7 @@ section{padding:4vh 3.4vw 5vh}
  </section>
 </div>
 <div id="dots"><i></i><i class="on"></i><i></i></div>
+<nav id="quickdock" aria-label="מעבר מהיר"><button type="button" data-view="music" aria-label="מסך מוזיקה" title="מוזיקה">♫</button><button type="button" data-view="clock" aria-label="מסך שעון" title="שעון">◷</button><button type="button" data-view="weather" aria-label="מסך מזג אוויר" title="מזג אוויר">°C</button></nav>
 <button id="cfg" aria-label="הגדרות">&#9881;</button>
 <div id="night"><div id="glow"></div><div id="nightcontent"><div id="nightcover"></div><div id="nightmeta"><div id="nighttitle">Music</div><div id="nightartist"></div></div><div id="nclock"></div></div></div><div id="toast" role="status"></div>
 <video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsbHN0AAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgcW1kPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
@@ -333,6 +363,7 @@ function go(i){
  S.page=i;var t='translateX('+(-i*33.3333)+'%)';$('pager').style.transform=t;$('pager').style.webkitTransform=t;
  var d=$('dots').children;for(var k=0;k<d.length;k++)d[k].className=k===i?'on':'';
  if(i===2)loadDevs();
+ if(i===1)setDock('music');else if(i===0&&$('wx').classList.contains('weather-focus'))setDock('weather');else if(i===0)setDock('clock');else setDock('');
 }
 var tx=0,ty=0;
 document.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY;S.awake=Date.now()+30000;var v=$('nv');if(v.paused)v.play().catch(function(){})},{passive:true});
@@ -342,6 +373,7 @@ document.addEventListener('touchend',function(e){
  if(Math.abs(dx)>70&&Math.abs(dy)<70){go(Math.max(0,Math.min(2,S.page+(dx<0?1:-1))))}
 },{passive:true});
 document.addEventListener('click',function(){S.awake=Date.now()+30000;var v=$('nv');if(v.paused)v.play().catch(function(){})},{passive:true});
+document.addEventListener('visibilitychange',function(){if(!document.hidden){var v=$('nv');if(v.paused)v.play().catch(function(){})}});
 
 /* Playback state */
 function setBg(img){
@@ -458,20 +490,43 @@ function loadDevs(){
 }
 $('pp').onclick=function(){
  var was=S.playing;S.progress=currentMs();S.stamp=Date.now();S.playing=!was;setPlayIcon();
- put(S.playing?'/me/player/play':'/me/player/pause',null,poll);
+ put(S.playing?('/me/player/play'+(S.deviceId?'?device_id='+encodeURIComponent(S.deviceId):'')):('/me/player/pause'+(S.deviceId?'?device_id='+encodeURIComponent(S.deviceId):'')),null,poll);
 };
 $('next').onclick=function(){toast('מדלג לשיר הבא…');put('/me/player/next',null,poll,'POST')};
 $('prev').onclick=function(){toast('חוזר לשיר הקודם…');put('/me/player/previous',null,poll,'POST')};
-function seekAt(clientX){
- if(!S.duration)return;var r=$('bar').getBoundingClientRect(),p=Math.max(0,Math.min(1,(clientX-r.left)/r.width)),ms=Math.round(p*S.duration);
+function seekAt(clientX,send){
+ if(!S.duration)return;
+ var r=$('bar').getBoundingClientRect(),p=Math.max(0,Math.min(1,(clientX-r.left)/Math.max(1,r.width))),ms=Math.round(p*S.duration);
  S.progress=ms;S.stamp=Date.now();$('fill').style.width=(p*100)+'%';$('tc').textContent=fmt(ms);$('tr').textContent='-'+fmt(S.duration-ms);
- put('/me/player/seek?position_ms='+ms,null,poll);
+ if(send)put('/me/player/seek?position_ms='+ms+(S.deviceId?'&device_id='+encodeURIComponent(S.deviceId):''),null,poll);
 }
-$('barw').addEventListener('click',function(e){seekAt(e.clientX)});
-$('barw').addEventListener('touchend',function(e){if(e.changedTouches&&e.changedTouches.length)seekAt(e.changedTouches[0].clientX)},{passive:true});
+var seekPointerDown=false;
+$('barw').addEventListener('pointerdown',function(e){seekPointerDown=true;try{$('barw').setPointerCapture(e.pointerId)}catch(_){}seekAt(e.clientX,false);e.preventDefault()});
+$('barw').addEventListener('pointermove',function(e){if(seekPointerDown)seekAt(e.clientX,false)});
+$('barw').addEventListener('pointerup',function(e){if(seekPointerDown){seekAt(e.clientX,true);seekPointerDown=false}});
+$('barw').addEventListener('pointercancel',function(){seekPointerDown=false});
 $('vol').oninput=function(){var v=this.value;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put('/me/player/volume?volume_percent='+v+(S.deviceId?'&device_id='+encodeURIComponent(S.deviceId):''))},250)};
 $('shuf').onclick=function(){S.shuf=!S.shuf;this.className='pill'+(S.shuf?' on':'');put('/me/player/shuffle?state='+S.shuf+(S.deviceId?'&device_id='+encodeURIComponent(S.deviceId):''),null,poll)};
 $('rep').onclick=function(){S.rep=S.rep==='off'?'context':(S.rep==='context'?'track':'off');this.className='pill'+(S.rep!=='off'?' on':'');this.textContent=S.rep==='track'?'חזרה על שיר':(S.rep==='context'?'חזרה על הכול':'חזרה');put('/me/player/repeat?state='+S.rep+(S.deviceId?'&device_id='+encodeURIComponent(S.deviceId):''),null,poll)};
+
+
+/* Quick switch dock */
+function setDock(view){
+ var bs=document.querySelectorAll('#quickdock button');
+ for(var i=0;i<bs.length;i++)bs[i].classList.toggle('active',bs[i].getAttribute('data-view')===view);
+}
+document.querySelectorAll('#quickdock button').forEach(function(b){
+ b.addEventListener('click',function(e){
+  e.stopPropagation();
+  S.awake=Date.now()+30000;
+  var v=$('nv');if(v.paused)v.play().catch(function(){});
+  var which=b.getAttribute('data-view');
+  if(which==='music'){go(1);setDock('music')}
+  else if(which==='clock'){go(0);$('wx').classList.remove('weather-focus');setDock('clock')}
+  else if(which==='weather'){go(0);$('wx').classList.add('weather-focus');setDock('weather')}
+  $('night').className='';
+ });
+});
 
 /* Setup and transfer code */
 $('go').onclick=login;
