@@ -181,7 +181,7 @@ function api(m,path,body){
  }).then(function(r){if(r.status===401){LS.del('at');LS.set('exp','0')}return r});
 }
 function put(path,body,after){
- api('PUT',path,body).then(function(r){if(r.status===403)document.body.classList.add('nop');else if(after)setTimeout(after,400)}).catch(function(){});
+ api('PUT',path,body).then(function(){if(after)setTimeout(after,400)}).catch(function(){});
 }
 
 /* ---- pages ---- */
