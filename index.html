@@ -86,6 +86,8 @@ body.idle #idle{opacity:1;pointer-events:auto}
 #setup input,#setup textarea{width:100%;font-size:18px;padding:14px;border-radius:12px;border:0;background:#1c1c1e;color:#fff;margin:6px 0 12px;word-break:break-all;-webkit-user-select:text;user-select:text}
 #setup textarea{height:90px;font-size:15px}#setup button{font-size:17px;font-weight:700;padding:13px 24px;border:0;border-radius:12px;background:#2c2c2e;color:#fff;margin-bottom:8px}#go{background:#fa586a!important}
 #err{color:#ff8a7a;margin:8px 0}#setup hr{border:0;border-top:1px solid #2c2c2e;margin:22px 0}
+html.ov #app,html.ov #idle,html.ov #tabs,html.ov .blob,html.ov .sheet,html.ov #cfg{visibility:hidden!important}
+.sheet{left:auto;right:34px;margin-left:0;width:340px;max-height:56%}
 </style>
 </head>
 <body class="playing">
@@ -141,7 +143,7 @@ function tick(){var d=new Date(),h=d.getHours(),t=p2(h)+":"+p2(d.getMinutes());
  $("clock").textContent=t;$("nclock").textContent=t;
  $("date").textContent="יום "+days[d.getDay()]+", "+d.getDate()+" ב"+months[d.getMonth()];
  var n=CONFIG.nightFrom>CONFIG.nightTo?(h>=CONFIG.nightFrom||h<CONFIG.nightTo):(h>=CONFIG.nightFrom&&h<CONFIG.nightTo);
- $("night").style.display=(n&&!nightOv)?"flex":"none";
+ $("night").style.display=(n&&!nightOv)?"flex":"none";ovl();
  var r=$("remind");if(h>=CONFIG.reminderFrom&&!n){r.textContent="זמן לסדר את המשימות למחר";r.style.opacity=1}else r.style.opacity=0}
 $("night").onclick=function(){nightOv=1;tick();clearTimeout(nT);nT=setTimeout(function(){nightOv=0;tick()},30000)};
 setInterval(tick,1000);tick();
@@ -211,7 +213,8 @@ document.querySelector('[data-s="sP"]').addEventListener("click",loadDevs);
 /* התחברות */
 function rand(n){var a=new Uint8Array(n),s="",c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";crypto.getRandomValues(a);for(var i=0;i<n;i++)s+=c[a[i]%c.length];return s}
 function b64(buf){var s="",a=new Uint8Array(buf);for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
-function showSetup(msg){$("setup").style.display="flex";$("ruri").textContent=REDIRECT;$("cid").value=LS.get("cid")||"";$("err").textContent=msg||"";var rt=LS.get("rt"),c=LS.get("cid");if(rt&&c){$("tcode").value=btoa(c+"|"+rt);$("outbox").style.display="block"}else $("outbox").style.display="none"}
+function ovl(){var on=$("night").style.display==="flex"||$("setup").style.display==="flex";document.documentElement.className=on?"ov":""}
+function showSetup(msg){$("setup").style.display="flex";ovl();$("ruri").textContent=REDIRECT;$("cid").value=LS.get("cid")||"";$("err").textContent=msg||"";var rt=LS.get("rt"),c=LS.get("cid");if(rt&&c){$("tcode").value=btoa(c+"|"+rt);$("outbox").style.display="block"}else $("outbox").style.display="none"}
 function login(){var cid=$("cid").value.replace(/\s/g,"");if(!cid){$("err").textContent="חסר Client ID";return}
  LS.set("cid",cid);var v=rand(64);LS.set("verifier",v);
  crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)).then(function(h){location.href="https://accounts.spotify.com/authorize?response_type=code&client_id="+encodeURIComponent(cid)+"&scope="+encodeURIComponent(SCOPES)+"&redirect_uri="+encodeURIComponent(REDIRECT)+"&code_challenge_method=S256&code_challenge="+b64(h)})}
@@ -220,7 +223,7 @@ function tokenReq(p){p.client_id=LS.get("cid");var body=Object.keys(p).map(funct
   if(!d.access_token)throw new Error(d.error_description||"auth failed");LS.set("at",d.access_token);LS.set("exp",String(Date.now()+d.expires_in*1000-60000));if(d.refresh_token)LS.set("rt",d.refresh_token)})}
 function ensureToken(){if(LS.get("at")&&Date.now()<Number(LS.get("exp")||0))return Promise.resolve();if(!LS.get("rt"))return Promise.reject(new Error("no token"));return tokenReq({grant_type:"refresh_token",refresh_token:LS.get("rt")})}
 function api(m,path,body){return ensureToken().then(function(){var o={method:m,headers:{Authorization:"Bearer "+LS.get("at")}};if(body){o.headers["Content-Type"]="application/json";o.body=JSON.stringify(body)}return fetch("https://api.spotify.com/v1"+path,o)}).then(function(r){if(r.status===401){LS.del("at");LS.set("exp","0")}return r})}
-$("go").onclick=login;$("cfg").onclick=function(){showSetup()};$("closeSetup").onclick=function(){$("setup").style.display="none"};
+$("go").onclick=login;$("cfg").onclick=function(){showSetup()};$("closeSetup").onclick=function(){$("setup").style.display="none";ovl()};
 $("copy").onclick=function(){var t=$("tcode");t.select();t.setSelectionRange(0,99999);try{document.execCommand("copy");$("copy").textContent="הועתק"}catch(e){}};
 $("useCode").onclick=function(){var raw=$("tin").value.replace(/[^A-Za-z0-9+\/=_-]/g,"").replace(/-/g,"+").replace(/_/g,"/");
  try{var d=atob(raw).split("|");if(d.length!==2||!d[0]||!d[1])throw 0;LS.set("cid",d[0]);LS.set("rt",d[1]);LS.del("at");LS.set("exp","0");location.reload()}catch(e){$("err").textContent="הקוד לא תקין (אורך "+raw.length+"). העתק אותו שוב במלואו"}};
@@ -254,6 +257,9 @@ $("add").onclick=addT;$("inp").onkeydown=function(e){if(e.keyCode==13)addT()};re
 var lamp={on:false,br:50,ct:50};
 function sendLamp(){$("pwr").className=lamp.on?"on":"";if(!CONFIG.lampEndpoint)return;try{fetch(CONFIG.lampEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(lamp)})}catch(e){}}
 $("pwr").onclick=function(){lamp.on=!lamp.on;sendLamp()};$("br").onchange=function(){lamp.br=+this.value;sendLamp()};$("ct").onchange=function(){lamp.ct=+this.value;sendLamp()};
+var shT;function armSheet(){clearTimeout(shT);shT=setTimeout(function(){show("")},15000)}
+document.addEventListener("touchstart",function(e){var h=document.querySelector(".sheet.show");if(!h)return;if(!h.contains(e.target)&&!$("tabs").contains(e.target))show("");else armSheet()},{passive:true});
+$("tabs").addEventListener("click",armSheet);
 </script>
 </body>
 </html>
