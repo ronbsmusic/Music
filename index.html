@@ -42,7 +42,7 @@ box-shadow:0 16px 34px rgba(0,0,0,.48),0 0 34px -14px var(--c1)}
 #lyrics{position:absolute;left:0;right:0;transition:-webkit-transform .8s ease,transform .8s ease}
 #lyrics div{font-size:clamp(28px,2.7vw,34px);font-weight:600;padding:11px 12px;color:rgba(255,255,255,.28);transition:color .22s ease;direction:ltr}
 #lyrics div.on{color:#fff;text-shadow:0 0 22px rgba(255,255,255,.45)}
-#prog{display:flex;align-items:center;direction:ltr}
+#prog{display:flex;align-items:center;direction:ltr}#prog .eq{display:none!important}
 #prog span{font-size:12px;color:var(--dim);width:42px;text-align:center}
 #track{flex:1;height:22px;display:flex;align-items:center}
 #rail{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:3px}
@@ -93,6 +93,17 @@ html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;h
 /* שדרוגים: מצב שינה ידני, חלונית משימות נפרדת ותוכן גדול יותר */
 #sleepBtn{position:fixed;left:18px;bottom:16px;z-index:7;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(22,22,30,.72);color:#fff;font-size:25px;box-shadow:0 8px 26px rgba(0,0,0,.22);transition:opacity 1.2s ease,background .2s}
 #sleepBtn:active{background:rgba(255,255,255,.22)}
+/* Dynamic-Island-style music indicator, deliberately separate from the seek timeline */
+#musicIsland{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:6;display:flex;align-items:center;justify-content:center;gap:5px;width:74px;height:34px;padding:0 17px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(8,8,12,.78);box-shadow:0 5px 24px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:opacity .25s ease}
+body.track-playing #musicIsland{opacity:1}
+#musicIsland i{display:block;width:3px;height:5px;border-radius:3px;background:#fff;transform-origin:center;animation:islandBeat .72s ease-in-out infinite;animation-play-state:paused}
+body.track-playing #musicIsland i{animation-play-state:running}
+#musicIsland i:nth-child(2){animation-delay:-.18s}
+#musicIsland i:nth-child(3){animation-delay:-.42s}
+#musicIsland i:nth-child(4){animation-delay:-.29s}
+#musicIsland i:nth-child(5){animation-delay:-.55s}
+@keyframes islandBeat{0%,100%{height:5px;opacity:.72}50%{height:19px;opacity:1}}
+@media(max-width:700px){#musicIsland{top:10px;width:68px;height:30px}}
 #idle{z-index:8;background:rgba(0,0,0,.22);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 #idle .idle-clock{margin-bottom:clamp(18px,3vh,30px)}
 #idle #wakeBtn{position:absolute;left:20px;bottom:18px;border:1px solid rgba(255,255,255,.18);border-radius:50%;width:48px;height:48px;background:rgba(255,255,255,.1);color:#fff;font-size:23px}
@@ -112,7 +123,7 @@ body.idle.track-playing #idle .idle-empty{display:none}
 </style>
 </head>
 <body class="playing">
-<div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
+<div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>\n<div id="musicIsland" aria-label="מתנגן עכשיו"><i></i><i></i><i></i><i></i><i></i></div>
 
 <div id="app">
  <div id="top">
@@ -153,7 +164,7 @@ body.idle.track-playing #idle .idle-empty{display:none}
 <div id="night"><div id="nclock"></div></div>
 
 <script>
-var CONFIG={lat:32.08,lon:34.78,nightFrom:23,nightTo:6,reminderFrom:20,idleSeconds:30,lampEndpoint:""};
+var CONFIG={lat:32.08,lon:34.78,nightFrom:23,nightTo:6,reminderFrom:20,lampEndpoint:""};
 function $(i){return document.getElementById(i)}
 function p2(n){return (n<10?"0":"")+n}
 var days=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"],months=["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
@@ -163,10 +174,10 @@ var nightOv=0,nT;
 function tick(){var d=new Date(),h=d.getHours(),t=p2(h)+":"+p2(d.getMinutes());
  $("clock").textContent=t;$("nclock").textContent=t;if($("idleClock"))$("idleClock").textContent=t;
  $("date").textContent="יום "+days[d.getDay()]+", "+d.getDate()+" ב"+months[d.getMonth()];
- var n=CONFIG.nightFrom>CONFIG.nightTo?(h>=CONFIG.nightFrom||h<CONFIG.nightTo):(h>=CONFIG.nightFrom&&h<CONFIG.nightTo);
- $("night").style.display=(n&&!nightOv)?"flex":"none";ovl();if(window.pageYOffset)window.scrollTo(0,0);
+ /* אין מסך שעון אוטומטי בלילה — מצב השינה מופעל רק בלחיצה על הירח */
+ $("night").style.display="none";ovl();if(window.pageYOffset)window.scrollTo(0,0);
  var r=$("remind");if(h>=CONFIG.reminderFrom&&!n){r.textContent="זמן לסדר את המשימות למחר";r.style.opacity=1}else r.style.opacity=0}
-$("night").onclick=function(){nightOv=1;tick();clearTimeout(nT);nT=setTimeout(function(){nightOv=0;tick()},30000)};
+$("night").onclick=function(){ $("night").style.display="none"; ovl(); };
 setInterval(tick,1000);tick();
 
 /* מזג אוויר */
@@ -247,7 +258,7 @@ $("copy").onclick=function(){var t=$("tcode");t.select();t.setSelectionRange(0,9
 $("useCode").onclick=function(){var raw=$("tin").value.replace(/[^A-Za-z0-9+\/=_-]/g,"").replace(/-/g,"+").replace(/_/g,"/");
  try{var d=atob(raw).split("|");if(d.length!==2||!d[0]||!d[1])throw 0;LS.set("cid",d[0]);LS.set("rt",d[1]);LS.del("at");LS.set("exp","0");location.reload()}catch(e){$("err").textContent="הקוד לא תקין (אורך "+raw.length+"). העתק אותו שוב במלואו"}};
 document.addEventListener("touchstart",function(){var v=$("nv");if(v.paused)v.play().catch(function(){})},{passive:true});
-function start(){pp();setInterval(ui,200);poll()}
+function start(){pp();setInterval(ui,200);poll();requestWakeLock()}
 var qp=new URLSearchParams(location.search);
 if(qp.get("code")){var code=qp.get("code");history.replaceState({},"",REDIRECT);tokenReq({grant_type:"authorization_code",code:code,redirect_uri:REDIRECT,code_verifier:LS.get("verifier")||""}).then(start).catch(function(e){showSetup("ההתחברות נכשלה: "+e.message)})}
 else if(qp.get("error")){history.replaceState({},"",REDIRECT);showSetup("ספוטיפיי סירבה: "+qp.get("error"))}
@@ -262,7 +273,9 @@ function enterSleep(){show("");document.body.classList.add("idle");requestWakeLo
 function exitSleep(){document.body.classList.remove("idle");if(wakeLock){wakeLock.release().catch(function(){});wakeLock=null}}
 $("sleepBtn").addEventListener("click",enterSleep);
 $("wakeBtn").addEventListener("click",exitSleep);
-document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&document.body.classList.contains("idle"))requestWakeLock()});
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")requestWakeLock()});
+document.addEventListener("pointerdown",function(){if(document.visibilityState==="visible")requestWakeLock()},{passive:true});
+document.addEventListener("touchstart",function(){if(document.visibilityState==="visible")requestWakeLock()},{passive:true});
 
 /* טאבים */
 function show(id){["sT","sL","sP"].forEach(function(s){$(s).className="sheet glass"+(s===id?" show":"")});
