@@ -19,7 +19,7 @@ font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Hel
 @-webkit-keyframes drift{to{-webkit-transform:translate(8vw,6vw) scale(1.15)}}
 @keyframes drift{to{transform:translate(8vw,6vw) scale(1.15)}}
 #app{position:absolute;inset:0;padding:26px 34px 84px;display:flex;flex-direction:column;opacity:1;transition:opacity 1.8s ease;will-change:opacity}
-body.idle #app,body.idle #tabs{opacity:0;pointer-events:none;transition:opacity 1.8s ease}
+body.idle #app,body.idle #tabs,body.idle #sleepBtn,body.idle #cfg{opacity:0;pointer-events:none;transition:opacity 1.2s ease}
 .glass{background:rgba(24,24,30,.88);border:1px solid var(--line)}
 #top{display:flex;justify-content:space-between;align-items:flex-start}
 #clock{font-size:64px;font-weight:200;line-height:1;letter-spacing:1px}
@@ -27,11 +27,11 @@ body.idle #app,body.idle #tabs{opacity:0;pointer-events:none;transition:opacity 
 #pill{padding:9px 18px;border-radius:30px;font-size:16px;margin-top:6px}
 #remind{text-align:center;font-size:15px;color:var(--dim);height:20px;opacity:0;transition:opacity 1.5s}
 #main{flex:1;display:flex;align-items:center;min-height:0}
-#left{width:42%;display:flex;flex-direction:column;align-items:center}
-.art{width:230px;height:230px;border-radius:20px;background:linear-gradient(135deg,#ff8a5c,#7b3fe4 55%,#1b2a6b);background-size:cover;background-position:center center;background-repeat:no-repeat;
+#left{width:45%;display:flex;flex-direction:column;align-items:center}
+.art{width:min(290px,28vw);height:min(290px,28vw);min-width:220px;min-height:220px;border-radius:22px;background:linear-gradient(135deg,#ff8a5c,#7b3fe4 55%,#1b2a6b);background-size:cover;background-position:center center;background-repeat:no-repeat;
 box-shadow:0 16px 34px rgba(0,0,0,.48),0 0 34px -14px var(--c1)}
-.title{font-size:23px;font-weight:600;margin-top:20px;text-align:center}
-.sub{font-size:14px;color:var(--dim);margin-top:4px;text-align:center}
+.title{font-size:clamp(25px,2.5vw,31px);font-weight:650;margin-top:22px;text-align:center;max-width:95%;}
+.sub{font-size:clamp(16px,1.6vw,19px);color:var(--dim);margin-top:5px;text-align:center;max-width:95%;}
 .eq{display:flex;align-items:flex-end;height:18px;margin-top:12px}
 .eq i{width:3px;margin:0 2px;border-radius:2px;background:#fff;height:4px;-webkit-animation:eq 1s ease-in-out infinite;animation:eq 1s ease-in-out infinite;-webkit-animation-play-state:paused;animation-play-state:paused}
 .playing .eq i{-webkit-animation-play-state:running;animation-play-state:running}
@@ -40,7 +40,7 @@ box-shadow:0 16px 34px rgba(0,0,0,.48),0 0 34px -14px var(--c1)}
 #right{flex:1;height:100%;max-height:330px;overflow:hidden;position:relative;
 -webkit-mask-image:linear-gradient(transparent,#000 25%,#000 75%,transparent);mask-image:linear-gradient(transparent,#000 25%,#000 75%,transparent)}
 #lyrics{position:absolute;left:0;right:0;transition:-webkit-transform .8s ease,transform .8s ease}
-#lyrics div{font-size:26px;font-weight:600;padding:9px 10px;color:rgba(255,255,255,.28);transition:color .22s ease;direction:ltr}
+#lyrics div{font-size:clamp(28px,2.7vw,34px);font-weight:600;padding:11px 12px;color:rgba(255,255,255,.28);transition:color .22s ease;direction:ltr}
 #lyrics div.on{color:#fff;text-shadow:0 0 22px rgba(255,255,255,.45)}
 #prog{display:flex;align-items:center;direction:ltr}
 #prog span{font-size:12px;color:var(--dim);width:42px;text-align:center}
@@ -69,7 +69,7 @@ svg{width:18px;height:18px;fill:#fff;vertical-align:middle}
 #pwr{height:42px;margin-top:4px}#pwr.on{background:#fff;color:#000}
 #idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.8s ease;padding:24px;text-align:center;z-index:2;background:rgba(0,0,0,.08)}
 body.idle #idle{opacity:1;pointer-events:auto;transition:opacity 1.8s ease}
-#idle .idle-clock{font-size:clamp(38px,7vw,64px);font-weight:200;line-height:1;letter-spacing:1px;margin-bottom:24px;color:rgba(255,255,255,.92);font-variant-numeric:tabular-nums}#idle .art{width:min(240px,48vw);height:min(240px,48vw);flex-shrink:0;border-radius:24px;box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 90px -18px var(--c1)}#idle .title{max-width:90vw;font-size:clamp(20px,3vw,28px);margin-top:22px}#idle .sub{max-width:90vw;font-size:15px}#idle #iLy{font-size:18px;margin-top:18px;color:rgba(255,255,255,.8);min-height:28px;text-align:center;direction:ltr}
+#idle .idle-clock{font-size:clamp(42px,8vw,72px);font-weight:200;line-height:1;letter-spacing:1px;margin-bottom:24px;color:rgba(255,255,255,.92);font-variant-numeric:tabular-nums}#idle .art{width:min(310px,54vw);height:min(310px,54vw);flex-shrink:0;border-radius:24px;box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 90px -18px var(--c1)}#idle .title{max-width:90vw;font-size:clamp(24px,4vw,34px);margin-top:22px}#idle .sub{max-width:90vw;font-size:18px}#idle #iLy{font-size:21px;margin-top:18px;color:rgba(255,255,255,.8);min-height:28px;text-align:center;direction:ltr}
 #night{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;z-index:9}
 #nclock{font-size:48px;font-weight:200;color:rgba(255,255,255,.22)}
 
@@ -89,6 +89,26 @@ body.idle #idle{opacity:1;pointer-events:auto;transition:opacity 1.8s ease}
 html.ov #app,html.ov #idle,html.ov #tabs,html.ov .blob,html.ov .sheet,html.ov #cfg{visibility:hidden!important}
 .sheet{left:auto;right:34px;margin-left:0;width:340px;max-height:56%}
 html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;height:100%}
+
+/* שדרוגים: מצב שינה ידני, חלונית משימות נפרדת ותוכן גדול יותר */
+#sleepBtn{position:fixed;left:18px;bottom:16px;z-index:7;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(22,22,30,.72);color:#fff;font-size:25px;box-shadow:0 8px 26px rgba(0,0,0,.22);transition:opacity 1.2s ease,background .2s}
+#sleepBtn:active{background:rgba(255,255,255,.22)}
+#idle{z-index:8;background:rgba(0,0,0,.22);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+#idle .idle-clock{margin-bottom:clamp(18px,3vh,30px)}
+#idle #wakeBtn{position:absolute;left:20px;bottom:18px;border:1px solid rgba(255,255,255,.18);border-radius:50%;width:48px;height:48px;background:rgba(255,255,255,.1);color:#fff;font-size:23px}
+#idle .sleep-track{display:none;flex-direction:column;align-items:center;max-width:94vw}
+body.idle.track-playing #idle .sleep-track{display:flex}
+body.idle.track-playing #idle .idle-empty{display:none}
+#idle .idle-empty{font-size:13px;color:rgba(255,255,255,.28);margin-top:8px}
+#idle .art{width:min(310px,46vh,54vw);height:min(310px,46vh,54vw)}
+#idle #iLy{max-width:90vw;max-height:2.8em;overflow:hidden}
+#sT.sheet{position:fixed;left:auto;right:22px;top:92px;bottom:auto;width:min(370px,calc(100vw - 36px));max-height:calc(100vh - 170px);z-index:10;border-radius:24px;background:rgba(20,20,28,.94);box-shadow:0 20px 70px rgba(0,0,0,.35)}
+#sT #list{min-height:24px;max-height:calc(100vh - 270px)}
+#sT h3{font-size:16px;color:rgba(255,255,255,.72)}
+#sT #inp{min-width:0}
+@media(max-width:700px){#app{padding:20px 18px 82px}#main{gap:12px}#left{width:46%}.art{width:min(260px,34vw);height:min(260px,34vw);min-width:0;min-height:0}.title{font-size:clamp(21px,3.4vw,27px)}.sub{font-size:clamp(14px,2vw,17px)}#lyrics div{font-size:clamp(23px,3.4vw,30px);padding:8px 6px}#sT.sheet{right:12px;top:76px;width:min(360px,calc(100vw - 24px))}#idle .art{width:min(250px,38vh,58vw);height:min(250px,38vh,58vw)}}
+@media(max-height:600px){#idle .art{width:min(190px,34vh,42vw);height:min(190px,34vh,42vw)}#idle .idle-clock{margin-bottom:12px}#idle .title{margin-top:12px}#idle #iLy{margin-top:8px}}
+
 </style>
 </head>
 <body class="playing">
@@ -116,7 +136,7 @@ html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;h
  </div>
 </div>
 
-<div id="idle"><div class="idle-clock" id="idleClock">--:--</div><div class="art"></div><div class="title">Demo Track</div><div class="sub">שם האלבום · שם האמן</div><div class="eq"><i></i><i></i><i></i><i></i><i></i></div><div id="iLy"></div></div>
+<div id="idle"><div class="idle-clock" id="idleClock">--:--</div><div class="sleep-track"><div class="art"></div><div class="title">Demo Track</div><div class="sub">שם האלבום · שם האמן</div><div class="eq"><i></i><i></i><i></i><i></i><i></i></div><div id="iLy"></div></div><div class="idle-empty">מצב שינה</div><button id="wakeBtn" aria-label="חזרה למסך הראשי" title="חזרה למסך הראשי">↗</button></div>
 
 <div id="sT" class="sheet glass"><h3>משימות</h3><div id="list"></div><div id="addRow"><input id="inp" placeholder="משימה חדשה"><button id="add">+</button></div></div>
 <div id="sL" class="sheet glass"><h3>מנורה</h3><button id="pwr">⏻ הדלקה / כיבוי</button>
@@ -125,7 +145,7 @@ html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;h
 
 <div id="sP" class="sheet glass"><h3>עוצמה</h3><input type="range" id="vol" min="0" max="100" value="50" style="width:100%"><div style="display:flex;margin-top:14px"><button class="pl" id="shuf">ערבוב</button><button class="pl" id="rep">חזרה</button></div><h3 style="margin-top:16px">רמקול</h3><div id="devs"></div></div>
 <div id="tabs" class="glass"><button class="tab on" data-s="">🎵</button><button class="tab" data-s="sT">✓</button><button class="tab" data-s="sL">💡</button><button class="tab" data-s="sP">🔊</button></div>
-<button id="cfg">&#9881;</button>
+<button id="sleepBtn" aria-label="מצב שינה" title="מצב שינה">☾</button><button id="cfg">&#9881;</button>
 <video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
 <div id="setup"><div class="box"><h1>חיבור לספוטיפיי</h1><p>Redirect URI באפליקציית ספוטיפיי:</p><code id="ruri"></code><input id="cid" placeholder="Client ID" autocapitalize="off" autocorrect="off" spellcheck="false"><button id="go">התחברות</button><div id="err"></div><hr>
 <h1>העברת חיבור בין מכשירים</h1><div id="outbox" style="display:none"><p>הקוד של המכשיר הזה:</p><textarea id="tcode" readonly></textarea><button id="copy">העתק קוד</button></div>
@@ -188,7 +208,7 @@ function loadMeta(t,img){var a=document.querySelectorAll(".art"),j,ar=t.artists?
  var ti=document.querySelectorAll(".title");for(j=0;j<ti.length;j++)ti[j].textContent=t.name;
  var s=document.querySelectorAll("#left .sub");s[0].textContent=al;s[1].textContent=ar;document.querySelector("#idle .sub").textContent=al+" \u00B7 "+ar;
  if(img)paletteFrom(img,setPal)}
-function apply(d){var t=d.item;S.playing=!!d.is_playing;S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||"off";
+function apply(d){var t=d.item;S.playing=!!d.is_playing;document.body.classList.toggle("track-playing",!!(S.playing&&t));S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||"off";
  $("shuf").className="pl"+(S.shuf?" on":"");$("rep").className="pl"+(S.rep!=="off"?" on":"");$("rep").textContent=S.rep==="track"?"חזרה על שיר":(S.rep==="context"?"חזרה על הכול":"חזרה");
  if(d.device&&d.device.volume_percent!=null&&Date.now()>S.volT)$("vol").value=d.device.volume_percent;
  pp();
@@ -234,13 +254,15 @@ else if(qp.get("error")){history.replaceState({},"",REDIRECT);showSetup("ספו�
 else if(LS.get("rt")){start()}else showSetup();
 window.onresize=function(){cur=-1;ui()};
 
-/* מצב תצוגה רגוע + בקשה להשאיר את המסך ער */
-var idleT,wakeLock=null;
+/* מצב שינה ידני בלבד — אין מעבר אוטומטי אחרי 30 שניות */
+var wakeLock=null;
 function requestWakeLock(){if(!("wakeLock" in navigator)||document.visibilityState!=="visible")return;
  navigator.wakeLock.request("screen").then(function(lock){wakeLock=lock;lock.addEventListener("release",function(){if(wakeLock===lock)wakeLock=null})}).catch(function(){});}
-function wake(){document.body.classList.remove("idle");clearTimeout(idleT);idleT=setTimeout(function(){show("");requestAnimationFrame(function(){document.body.classList.add("idle")})},CONFIG.idleSeconds*1000);requestWakeLock()}
-document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")requestWakeLock()});
-["touchstart","mousedown","keydown"].forEach(function(e){document.addEventListener(e,wake,{passive:true})});wake();
+function enterSleep(){show("");document.body.classList.add("idle");requestWakeLock()}
+function exitSleep(){document.body.classList.remove("idle");if(wakeLock){wakeLock.release().catch(function(){});wakeLock=null}}
+$("sleepBtn").addEventListener("click",enterSleep);
+$("wakeBtn").addEventListener("click",exitSleep);
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&document.body.classList.contains("idle"))requestWakeLock()});
 
 /* טאבים */
 function show(id){["sT","sL","sP"].forEach(function(s){$(s).className="sheet glass"+(s===id?" show":"")});
