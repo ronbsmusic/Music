@@ -29,7 +29,7 @@ body.idle #app,body.idle #tabs{opacity:0;pointer-events:none}
 #main{flex:1;display:flex;align-items:center;min-height:0}
 #left{width:42%;display:flex;flex-direction:column;align-items:center}
 .art{width:230px;height:230px;border-radius:20px;background:linear-gradient(135deg,#ff8a5c,#7b3fe4 55%,#1b2a6b);background-size:cover;
-box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 80px -12px var(--c1);-webkit-transform:perspective(900px) rotateY(8deg);transform:perspective(900px) rotateY(8deg)}
+box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 80px -12px var(--c1)}
 .title{font-size:23px;font-weight:600;margin-top:20px;text-align:center}
 .sub{font-size:14px;color:var(--dim);margin-top:4px;text-align:center}
 .eq{display:flex;align-items:flex-end;height:18px;margin-top:12px}
@@ -88,6 +88,7 @@ body.idle #idle{opacity:1;pointer-events:auto}
 #err{color:#ff8a7a;margin:8px 0}#setup hr{border:0;border-top:1px solid #2c2c2e;margin:22px 0}
 html.ov #app,html.ov #idle,html.ov #tabs,html.ov .blob,html.ov .sheet,html.ov #cfg{visibility:hidden!important}
 .sheet{left:auto;right:34px;margin-left:0;width:340px;max-height:56%}
+html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;height:100%}
 </style>
 </head>
 <body class="playing">
@@ -143,7 +144,7 @@ function tick(){var d=new Date(),h=d.getHours(),t=p2(h)+":"+p2(d.getMinutes());
  $("clock").textContent=t;$("nclock").textContent=t;
  $("date").textContent="יום "+days[d.getDay()]+", "+d.getDate()+" ב"+months[d.getMonth()];
  var n=CONFIG.nightFrom>CONFIG.nightTo?(h>=CONFIG.nightFrom||h<CONFIG.nightTo):(h>=CONFIG.nightFrom&&h<CONFIG.nightTo);
- $("night").style.display=(n&&!nightOv)?"flex":"none";ovl();
+ $("night").style.display=(n&&!nightOv)?"flex":"none";ovl();if(window.pageYOffset)window.scrollTo(0,0);
  var r=$("remind");if(h>=CONFIG.reminderFrom&&!n){r.textContent="זמן לסדר את המשימות למחר";r.style.opacity=1}else r.style.opacity=0}
 $("night").onclick=function(){nightOv=1;tick();clearTimeout(nT);nT=setTimeout(function(){nightOv=0;tick()},30000)};
 setInterval(tick,1000);tick();
@@ -260,6 +261,7 @@ $("pwr").onclick=function(){lamp.on=!lamp.on;sendLamp()};$("br").onchange=functi
 var shT;function armSheet(){clearTimeout(shT);shT=setTimeout(function(){show("")},15000)}
 document.addEventListener("touchstart",function(e){var h=document.querySelector(".sheet.show");if(!h)return;if(!h.contains(e.target)&&!$("tabs").contains(e.target))show("");else armSheet()},{passive:true});
 $("tabs").addEventListener("click",armSheet);
+$("inp").onblur=function(){setTimeout(function(){window.scrollTo(0,0)},60)};
 </script>
 </body>
 </html>
