@@ -1,324 +1,190 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Future Listening Room - Music Panel</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #050508;
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(76, 29, 149, 0.35) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(30, 58, 138, 0.35) 0%, transparent 40%);
-            color: #f3f4f6;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .dashboard-container {
-            width: 92%;
-            height: 88%;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            grid-template-rows: 1fr auto;
-            gap: 24px;
-            padding: 10px;
-        }
-
-        /* Glassmorphism Common Style */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Left Side: Media Player */
-        .player-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .player-section::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: rgba(168, 85, 247, 0.2);
-            filter: blur(60px);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .album-info-container {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            z-index: 1;
-        }
-
-        .album-art {
-            width: 110px;
-            height: 110px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #3b82f6, #9333ea);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            flex-shrink: 0;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .track-details h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 6px;
-            letter-spacing: -0.01em;
-        }
-
-        .track-details p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
-        }
-
-        .player-controls-area {
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .progress-fill {
-            width: 45%;
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #ec4899);
-            border-radius: 2px;
-        }
-
-        .time-indicators {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .buttons-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .btn-control {
-            background: none;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-            opacity: 0.8;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .btn-control:hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .btn-play {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Right Side: Lyrics & Toggle */
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .lyrics-section {
-            flex-grow: 1;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .lyrics-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .lyrics-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.4);
-            font-weight: 500;
-        }
-
-        .btn-toggle-lyrics {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-toggle-lyrics:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .lyrics-content {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            font-weight: 400;
-            transition: opacity 0.3s ease;
-        }
-
-        .lyrics-content .active-line {
-            color: #ffffff;
-            font-weight: 500;
-        }
-
-        /* Bottom Row / Status */
-        .status-bar {
-            grid-column: span 2;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .weather-widget {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-    </style>
+<meta charset="utf-8">
+<title>Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Panel">
+<style>
+:root{--fg:#fff;--dim:rgba(255,255,255,.5);--glass:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);--c1:#7b3fe4;--c2:#2d6cff;--c3:#ff4f9a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{height:100%;margin:0;background:#000;color:var(--fg);overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.blob{position:absolute;border-radius:50%;opacity:.55;transition:opacity .7s;-webkit-animation:drift 24s ease-in-out infinite alternate;animation:drift 24s ease-in-out infinite alternate}
+#b1{width:70vw;height:70vw;left:-15vw;top:-20vw;background:radial-gradient(circle,var(--c1),transparent 65%)}
+#b2{width:65vw;height:65vw;right:-20vw;top:5vw;background:radial-gradient(circle,var(--c2),transparent 65%);animation-delay:-8s}
+#b3{width:60vw;height:60vw;left:20vw;bottom:-30vw;background:radial-gradient(circle,var(--c3),transparent 65%);animation-delay:-16s}
+@-webkit-keyframes drift{to{-webkit-transform:translate(8vw,6vw) scale(1.15)}}
+@keyframes drift{to{transform:translate(8vw,6vw) scale(1.15)}}
+#app{position:absolute;inset:0;padding:26px 34px 84px;display:flex;flex-direction:column;transition:opacity 1.2s}
+body.idle #app,body.idle #tabs{opacity:0;pointer-events:none}
+.glass{background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
+#top{display:flex;justify-content:space-between;align-items:flex-start}
+#clock{font-size:64px;font-weight:200;line-height:1;letter-spacing:1px}
+#date{font-size:15px;color:var(--dim);margin-top:6px}
+#pill{padding:9px 18px;border-radius:30px;font-size:16px;margin-top:6px}
+#remind{text-align:center;font-size:15px;color:var(--dim);height:20px;opacity:0;transition:opacity 1.5s}
+#main{flex:1;display:flex;align-items:center;min-height:0}
+#left{width:42%;display:flex;flex-direction:column;align-items:center}
+.art{width:230px;height:230px;border-radius:20px;background:linear-gradient(135deg,#ff8a5c,#7b3fe4 55%,#1b2a6b);background-size:cover;
+box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 80px -12px var(--c1);-webkit-transform:perspective(900px) rotateY(8deg);transform:perspective(900px) rotateY(8deg)}
+.title{font-size:23px;font-weight:600;margin-top:20px;text-align:center}
+.sub{font-size:14px;color:var(--dim);margin-top:4px;text-align:center}
+.eq{display:flex;align-items:flex-end;height:18px;margin-top:12px}
+.eq i{width:3px;margin:0 2px;border-radius:2px;background:#fff;height:4px;-webkit-animation:eq 1s ease-in-out infinite;animation:eq 1s ease-in-out infinite;-webkit-animation-play-state:paused;animation-play-state:paused}
+.playing .eq i{-webkit-animation-play-state:running;animation-play-state:running}
+.eq i:nth-child(2){animation-delay:-.3s}.eq i:nth-child(3){animation-delay:-.6s}.eq i:nth-child(4){animation-delay:-.15s}.eq i:nth-child(5){animation-delay:-.75s}
+@-webkit-keyframes eq{50%{height:18px}}@keyframes eq{50%{height:18px}}
+#right{flex:1;height:100%;max-height:330px;overflow:hidden;position:relative;
+-webkit-mask-image:linear-gradient(transparent,#000 25%,#000 75%,transparent);mask-image:linear-gradient(transparent,#000 25%,#000 75%,transparent)}
+#lyrics{position:absolute;left:0;right:0;transition:-webkit-transform .8s ease,transform .8s ease}
+#lyrics div{font-size:26px;font-weight:600;padding:9px 10px;color:rgba(255,255,255,.28);transition:color .6s,opacity .6s;direction:ltr}
+#lyrics div.on{color:#fff;text-shadow:0 0 22px rgba(255,255,255,.45)}
+#prog{display:flex;align-items:center;direction:ltr}
+#prog span{font-size:12px;color:var(--dim);width:42px;text-align:center}
+#track{flex:1;height:22px;display:flex;align-items:center}
+#rail{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:3px}
+#fill{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,#5ee7ff,var(--c1),var(--c3));box-shadow:0 0 12px var(--c3),0 0 26px var(--c1);transition:width 1s linear}
+#ctl{display:flex;justify-content:center;margin-top:8px}
+#ctl button,.tab{color:#fff;font-family:inherit;border:1px solid var(--line);cursor:pointer}
+#ctl button{width:46px;height:46px;border-radius:50%;margin:0 12px;padding:0;background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+#ctl button.m{width:54px;height:54px}
+svg{width:18px;height:18px;fill:#fff;vertical-align:middle}
+#tabs{position:absolute;bottom:20px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);display:flex;padding:5px;border-radius:30px;transition:opacity 1.2s}
+.tab{background:transparent;border:0;border-radius:24px;padding:9px 22px;font-size:17px}
+.tab.on{background:rgba(255,255,255,.18)}
+.sheet{position:absolute;left:50%;bottom:78px;width:420px;margin-left:-210px;max-height:62%;padding:20px;border-radius:26px;background:rgba(20,20,28,.55);display:none;flex-direction:column;z-index:5}
+.sheet.show{display:flex}
+.sheet h3{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--dim)}
+#list{overflow:auto;-webkit-overflow-scrolling:touch}
+.t{display:flex;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line);font-size:18px}
+.t span{flex:1;direction:auto;text-align:start}.t.done span{text-decoration:line-through;color:var(--dim)}
+.t b{font-weight:300;color:var(--dim);padding:0 8px;font-size:22px}
+#addRow{display:flex;margin-top:10px}
+#inp{flex:1;background:rgba(255,255,255,.1);border:0;border-radius:14px;padding:11px 14px;color:#fff;font-size:16px;font-family:inherit;-webkit-user-select:text;user-select:text;margin-right:8px;direction:auto}
+#add,#pwr{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:14px;font-size:20px;padding:0 16px}
+.lamp{display:flex;align-items:center;margin-top:12px;font-size:14px}.lamp label{width:70px;direction:rtl}.lamp input{flex:1}
+#pwr{height:42px;margin-top:4px}#pwr.on{background:#fff;color:#000}
+#idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.4s}
+body.idle #idle{opacity:1;pointer-events:auto}
+#idle .art{width:270px;height:270px}#idle #iLy{font-size:20px;margin-top:20px;color:rgba(255,255,255,.8);height:28px;text-align:center;direction:ltr}
+#night{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;z-index:9}
+#nclock{font-size:48px;font-weight:200;color:rgba(255,255,255,.22)}
+</style>
 </head>
-<body>
+<body class="playing">
+<div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
 
-    <div class="dashboard-container">
-        
-        <!-- צד שמאל: נגן המוזיקה -->
-        <div class="glass-panel player-section">
-            <div class="album-info-container">
-                <div class="album-art"></div>
-                <div class="track-details">
-                    <h2 id="track-name">שם השיר</h2>
-                    <p id="artist-name">שם האמן</p>
-                </div>
-            </div>
+<div id="app">
+ <div id="top">
+  <div><div id="clock">--:--</div><div id="date"></div></div>
+  <div id="pill" class="glass">--°</div>
+ </div>
+ <div id="remind"></div>
+ <div id="main">
+  <div id="left">
+   <div class="art"></div>
+   <div class="title">Demo Track</div><div class="sub">שם האלבום</div><div class="sub" style="margin-top:2px">שם האמן</div>
+   <div class="eq"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div id="right"><div id="lyrics"></div></div>
+ </div>
+ <div id="prog"><span id="cur">0:00</span><div id="track"><div id="rail"><div id="fill"></div></div></div><span id="rem">-0:00</span></div>
+ <div id="ctl">
+  <button id="prev"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM20 6v12L9.5 12z"/></svg></button>
+  <button id="pp" class="m"></button>
+  <button id="next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM4 6l10.5 6L4 18z"/></svg></button>
+ </div>
+</div>
 
-            <div class="player-controls-area">
-                <div>
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div>
-                    </div>
-                    <div class="time-indicators">
-                        <span id="current-time">1:12</span>
-                        <span id="total-time">3:45</span>
-                    </div>
-                </div>
+<div id="idle"><div class="art"></div><div class="title">Demo Track</div><div class="sub">שם האלבום · שם האמן</div><div class="eq"><i></i><i></i><i></i><i></i><i></i></div><div id="iLy"></div></div>
 
-                <div class="buttons-row">
-                    <button class="btn-control">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="4" x2="5" y2="20"></line></svg>
-                    </button>
-                    <button class="btn-control btn-play" id="play-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                    </button>
-                    <button class="btn-control">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="4" x2="19" y2="20"></line></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
+<div id="sT" class="sheet glass"><h3>משימות</h3><div id="list"></div><div id="addRow"><input id="inp" placeholder="משימה חדשה"><button id="add">+</button></div></div>
+<div id="sL" class="sheet glass"><h3>מנורה</h3><button id="pwr">⏻ הדלקה / כיבוי</button>
+ <div class="lamp"><label>בהירות</label><input id="br" type="range" min="1" max="100" value="50"></div>
+ <div class="lamp"><label>חמימות</label><input id="ct" type="range" min="0" max="100" value="50"></div></div>
 
-        <!-- צד ימין: מילים לשירים עם אפשרות סגירה -->
-        <div class="right-column">
-            <div class="glass-panel lyrics-section">
-                <div class="lyrics-header">
-                    <span class="lyrics-title">מילים לשיר</span>
-                    <button class="btn-toggle-lyrics" id="toggleLyricsBtn" onclick="toggleLyrics()">הסתר מילים</button>
-                </div>
-                <div class="lyrics-content" id="lyricsText">
-                    <p>השורה הראשונה של השיר מתנגנת ברקע...</p>
-                    <p class="active-line">השורה הנוכחית המרכזית שמוצגת כרגע</p>
-                    <p>השורה הבאה שתגיע מיד לאחר מכן...</p>
-                    <p>עוד שורה מעודנת ונייחת לאורכה של המוזיקה</p>
-                </div>
-            </div>
-        </div>
+<div id="tabs" class="glass"><button class="tab on" data-s="">🎵</button><button class="tab" data-s="sT">✓</button><button class="tab" data-s="sL">💡</button></div>
+<div id="night"><div id="nclock"></div></div>
 
-        <!-- שורה תחתונה: מזג אוויר וסטטוס -->
-        <div class="status-bar">
-            <div class="weather-widget">
-                <span>☁️ 18°C, מעונן חלקית</span>
-            </div>
-            <div class="system-status">
-                <span>⚡ מחובר לחשמל • iPad Active</span>
-            </div>
-        </div>
+<script>
+var CONFIG={lat:32.08,lon:34.78,nightFrom:23,nightTo:6,reminderFrom:20,idleSeconds:30,lampEndpoint:""};
+function $(i){return document.getElementById(i)}
+function p2(n){return (n<10?"0":"")+n}
+var days=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"],months=["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
 
-    </div>
+/* שעון, לילה, תזכורת */
+var nightOv=0,nT;
+function tick(){var d=new Date(),h=d.getHours(),t=p2(h)+":"+p2(d.getMinutes());
+ $("clock").textContent=t;$("nclock").textContent=t;
+ $("date").textContent="יום "+days[d.getDay()]+", "+d.getDate()+" ב"+months[d.getMonth()];
+ var n=CONFIG.nightFrom>CONFIG.nightTo?(h>=CONFIG.nightFrom||h<CONFIG.nightTo):(h>=CONFIG.nightFrom&&h<CONFIG.nightTo);
+ $("night").style.display=(n&&!nightOv)?"flex":"none";
+ var r=$("remind");if(h>=CONFIG.reminderFrom&&!n){r.textContent="זמן לסדר את המשימות למחר";r.style.opacity=1}else r.style.opacity=0}
+$("night").onclick=function(){nightOv=1;tick();clearTimeout(nT);nT=setTimeout(function(){nightOv=0;tick()},30000)};
+setInterval(tick,1000);tick();
 
-    <script>
-        // פונקציה להסתרת/הצגת אזור המילים בלחיצה
-        function toggleLyrics() {
-            const lyricsContent = document.getElementById('lyricsText');
-            const btn = document.getElementById('toggleLyricsBtn');
-            if (lyricsContent.style.display === 'none') {
-                lyricsContent.style.display = 'block';
-                btn.innerText = 'הסתר מילים';
-            } else {
-                lyricsContent.style.display = 'none';
-                btn.innerText = 'הצג מילים';
-            }
-        }
-    </script>
+/* מזג אוויר */
+function feel(t){return t<=12?"קר":t<=19?"קריר":t<=26?"חמים":"חם"}
+$("pill").textContent="18° · קריר";
+function weather(){fetch("https://api.open-meteo.com/v1/forecast?latitude="+CONFIG.lat+"&longitude="+CONFIG.lon+"&current_weather=true")
+ .then(function(r){return r.json()}).then(function(j){var t=Math.round(j.current_weather.temperature);$("pill").textContent=t+"° · "+feel(t)}).catch(function(){})}
+weather();setInterval(weather,900000);
+
+/* נגן (דמו, מילים לדוגמה) */
+var LY=["♪","Placeholder lyric, line one","Placeholder lyric, line two","The words will scroll along","Every line glows when it's sung","Soft and slow, then on we go","Placeholder lyric, line six","Drifting through the evening light","Colors move behind the song","Placeholder lyric, line ten","Almost to the end now","♪"];
+var STEP=7,LEN=LY.length*STEP,pos=0,playing=true,cur=-1;
+var box=$("lyrics");LY.forEach(function(l){var d=document.createElement("div");d.textContent=l;box.appendChild(d)});
+function fmt(s){s=Math.floor(s);return Math.floor(s/60)+":"+p2(s%60)}
+var ICON_P='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',ICON_S='<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+function ui(){$("fill").style.width=(pos/LEN*100)+"%";$("cur").textContent=fmt(pos);$("rem").textContent="-"+fmt(LEN-pos);
+ var i=Math.min(LY.length-1,Math.floor(pos/STEP));
+ if(i!==cur){cur=i;var k=box.children,h=$("right").clientHeight;
+  for(var j=0;j<k.length;j++)k[j].className=j===i?"on":"";
+  var a=k[i];var y=h/2-(a.offsetTop+a.offsetHeight/2);box.style.webkitTransform=box.style.transform="translateY("+y+"px)";$("iLy").textContent=LY[i]}}
+function pp(){$("pp").innerHTML=playing?ICON_S:ICON_P;document.body.className=(playing?"playing ":"")+(document.body.classList.contains("idle")?"idle":"")}
+setInterval(function(){if(playing){pos=(pos+1)%LEN;ui()}},1000);
+$("pp").onclick=function(){playing=!playing;pp()};
+var TRACKS=[{t:"Demo Track",al:"שם האלבום",ar:"שם האמן",pal:["#7b3fe4","#2d6cff","#ff4f9a"]},{t:"Golden Hour",al:"Sunset Album",ar:"Demo Artist",pal:["#ff9a3c","#ff4f4f","#ffd36b"]},{t:"Deep Forest",al:"Green Album",ar:"Demo Artist",pal:["#1fb97a","#0f6b8a","#b6f06b"]}],ti=0;
+function setPal(p){var b=document.querySelectorAll(".blob"),i;for(i=0;i<b.length;i++)b[i].style.opacity=0;
+ setTimeout(function(){var s=document.documentElement.style;s.setProperty("--c1",p[0]);s.setProperty("--c2",p[1]);s.setProperty("--c3",p[2]);for(i=0;i<b.length;i++)b[i].style.opacity=.55},700)}
+/* חילוץ צבעים מתמונת אלבום אמיתית (לחיבור Spotify בהמשך) */
+function paletteFrom(url,cb){var im=new Image();im.crossOrigin="anonymous";im.onload=function(){try{var c=document.createElement("canvas");c.width=c.height=24;var x=c.getContext("2d");x.drawImage(im,0,0,24,24);var d=x.getImageData(0,0,24,24).data,k={},i,r,g,b,m,n,s,h,key;
+ for(i=0;i<d.length;i+=4){r=d[i];g=d[i+1];b=d[i+2];m=Math.max(r,g,b);n=Math.min(r,g,b);s=m?(m-n)/m:0;if(m<50||s<.3)continue;key=(r>>6)+","+(g>>6)+","+(b>>6);if(!k[key])k[key]={r:0,g:0,b:0,n:0,w:0};k[key].r+=r;k[key].g+=g;k[key].b+=b;k[key].n++;k[key].w+=s}
+ var a=[];for(key in k)a.push(k[key]);a.sort(function(p,q){return q.w-p.w});var o=a.slice(0,3).map(function(e){return "rgb("+Math.round(e.r/e.n)+","+Math.round(e.g/e.n)+","+Math.round(e.b/e.n)+")"});while(o.length<3)o.push(o[0]||"#7b3fe4");cb(o)}catch(e){}};im.src=url}
+function loadTrack(i,first){var T=TRACKS[i],p=T.pal,a=document.querySelectorAll(".art"),j;ti=i;pos=0;cur=-1;
+ for(j=0;j<a.length;j++){a[j].style.backgroundImage=T.img?"url("+T.img+")":"linear-gradient(135deg,"+p[0]+","+p[1]+" 55%,"+p[2]+")"}
+ var t=document.querySelectorAll(".title");for(j=0;j<t.length;j++)t[j].textContent=T.t;
+ var s=document.querySelectorAll("#left .sub");s[0].textContent=T.al;s[1].textContent=T.ar;document.querySelector("#idle .sub").textContent=T.al+" · "+T.ar;
+ if(first){var st=document.documentElement.style;st.setProperty("--c1",p[0]);st.setProperty("--c2",p[1]);st.setProperty("--c3",p[2])}else if(T.img)paletteFrom(T.img,setPal);else setPal(p);ui()}
+$("prev").onclick=function(){loadTrack(pos>3?ti:(ti+TRACKS.length-1)%TRACKS.length)};$("next").onclick=function(){loadTrack((ti+1)%TRACKS.length)};
+$("track").onclick=function(e){var r=$("rail").getBoundingClientRect();pos=Math.max(0,Math.min(.999,(e.clientX-r.left)/r.width))*LEN;ui()};
+pp();loadTrack(0,true);setTimeout(ui,100);window.onresize=function(){cur=-1;ui()};
+
+/* מצב שינה עדין */
+var idleT;function wake(){document.body.classList.remove("idle");clearTimeout(idleT);idleT=setTimeout(function(){document.body.classList.add("idle");show("")},CONFIG.idleSeconds*1000)}
+["touchstart","mousedown"].forEach(function(e){document.addEventListener(e,wake)});wake();
+
+/* טאבים */
+function show(id){["sT","sL"].forEach(function(s){$(s).className="sheet glass"+(s===id?" show":"")});
+ var t=document.querySelectorAll(".tab");for(var i=0;i<t.length;i++)t[i].className="tab"+(t[i].getAttribute("data-s")===id?" on":"")}
+var tb=document.querySelectorAll(".tab");for(var i=0;i<tb.length;i++)tb[i].onclick=function(){var s=this.getAttribute("data-s");show(this.className.indexOf("on")>-1&&s?"":s)};
+
+/* משימות */
+var tasks=[];try{tasks=JSON.parse(localStorage.getItem("tasks")||"[]")}catch(e){}
+function save(){try{localStorage.setItem("tasks",JSON.stringify(tasks))}catch(e){}}
+function render(){var l=$("list");l.innerHTML="";tasks.forEach(function(t,i){var d=document.createElement("div");d.className="t"+(t.d?" done":"");
+ var s=document.createElement("span");s.textContent=t.x;s.onclick=function(){t.d=!t.d;save();render()};
+ var x=document.createElement("b");x.textContent="×";x.onclick=function(){tasks.splice(i,1);save();render()};d.appendChild(s);d.appendChild(x);l.appendChild(d)})}
+function addT(){var v=$("inp").value.trim();if(!v)return;tasks.unshift({x:v,d:false});$("inp").value="";save();render()}
+$("add").onclick=addT;$("inp").onkeydown=function(e){if(e.keyCode==13)addT()};render();
+
+/* מנורה */
+var lamp={on:false,br:50,ct:50};
+function sendLamp(){$("pwr").className=lamp.on?"on":"";if(!CONFIG.lampEndpoint)return;try{fetch(CONFIG.lampEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(lamp)})}catch(e){}}
+$("pwr").onclick=function(){lamp.on=!lamp.on;sendLamp()};$("br").onchange=function(){lamp.br=+this.value;sendLamp()};$("ct").onchange=function(){lamp.ct=+this.value;sendLamp()};
+</script>
 </body>
 </html>
