@@ -53,6 +53,9 @@ box-shadow:0 16px 34px rgba(0,0,0,.48),0 0 34px -14px var(--c1)}
 #ctl button.m{width:54px;height:54px}
 svg{width:18px;height:18px;fill:#fff;vertical-align:middle}
 #tabs{position:absolute;bottom:20px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);display:flex;padding:5px;border-radius:30px;transition:opacity 1.2s}
+#quickVol{position:fixed;left:calc(50% + 145px);bottom:27px;z-index:7;display:flex;align-items:center;gap:8px;width:170px;padding:10px 12px;border-radius:24px;background:rgba(24,24,30,.78);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#quickVol .speaker{font-size:16px;line-height:1;opacity:.9}#quickVol input{width:100%;min-width:0;flex:1}
+@media(max-width:700px){#quickVol{left:calc(50% + 112px);width:calc(50vw - 126px);min-width:78px;padding:9px 8px;gap:5px;bottom:25px}#quickVol .speaker{font-size:14px}}
 .tab{background:transparent;border:0;border-radius:24px;padding:9px 22px;font-size:17px}
 .tab.on{background:rgba(255,255,255,.18)}
 .sheet{position:absolute;left:50%;bottom:78px;width:420px;margin-left:-210px;max-height:62%;padding:20px;border-radius:26px;background:rgba(20,20,28,.55);display:none;flex-direction:column;z-index:5}
@@ -123,7 +126,8 @@ body.idle.track-playing #idle .idle-empty{display:none}
 </style>
 </head>
 <body class="playing">
-<div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>\n<div id="musicIsland" aria-label="מתנגן עכשיו"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
+<div id="musicIsland" aria-label="מתנגן עכשיו"><i></i><i></i><i></i><i></i><i></i></div>
 
 <div id="app">
  <div id="top">
@@ -156,6 +160,7 @@ body.idle.track-playing #idle .idle-empty{display:none}
 
 <div id="sP" class="sheet glass"><h3>עוצמה</h3><input type="range" id="vol" min="0" max="100" value="50" style="width:100%"><div style="display:flex;margin-top:14px"><button class="pl" id="shuf">ערבוב</button><button class="pl" id="rep">חזרה</button></div><h3 style="margin-top:16px">רמקול</h3><div id="devs"></div></div>
 <div id="tabs" class="glass"><button class="tab on" data-s="">🎵</button><button class="tab" data-s="sT">✓</button><button class="tab" data-s="sL">💡</button><button class="tab" data-s="sP">🔊</button></div>
+<div id="quickVol" aria-label="עוצמת שמע"><span class="speaker">🔉</span><input type="range" id="quickVolume" min="0" max="100" value="50" aria-label="עוצמת שמע"></div>
 <button id="sleepBtn" aria-label="מצב שינה" title="מצב שינה">☾</button><button id="cfg">&#9881;</button>
 <video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
 <div id="setup"><div class="box"><h1>חיבור לספוטיפיי</h1><p>Redirect URI באפליקציית ספוטיפיי:</p><code id="ruri"></code><input id="cid" placeholder="Client ID" autocapitalize="off" autocorrect="off" spellcheck="false"><button id="go">התחברות</button><div id="err"></div><hr>
@@ -209,11 +214,19 @@ function parseLRC(txt){var out=[],re=/\[(\d+):(\d+(?:\.\d+)?)\]/g;
   var x=line.slice(last).trim();ts.forEach(function(t){out.push({t:t,s:x})})});out.sort(function(a,b){return a.t-b.t});return out}
 function setLines(list,synced){LY=synced?list:[];box.innerHTML="";cur=-1;box.style.webkitTransform=box.style.transform="translateY(0)";$("iLy").textContent="";
  list.forEach(function(l){var s=synced?l.s:l,d=document.createElement("div");d.textContent=s||"\u266A";if(/[\u0590-\u05FF]/.test(s))d.style.direction="rtl";if(!synced)d.className="on";box.appendChild(d)})}
-function loadLyrics(t){var id=t.id,q="track_name="+encodeURIComponent(t.name)+"&artist_name="+encodeURIComponent(t.artists[0].name)+"&album_name="+encodeURIComponent(t.album.name)+"&duration="+Math.round(t.duration_ms/1000);
+function loadLyrics(t){var id=t.id,q="track_name="+encodeURIComponent(t.name)+"&artist_name="+encodeURIComponent(t.artists[0].name)+"&album_name="+encodeURIComponent(t.album.name)+"&duration="+Math.round(t.duration_ms/1000),artist=t.artists[0].name,title=t.name;
  setLines([],true);
- fetch("https://lrclib.net/api/get?"+q).then(function(r){return r.ok?r.json():null}).then(function(d){if(d)return d;
-  return fetch("https://lrclib.net/api/search?track_name="+encodeURIComponent(t.name)+"&artist_name="+encodeURIComponent(t.artists[0].name)).then(function(r){return r.ok?r.json():[]}).then(function(a){for(var i=0;i<a.length;i++)if(a[i].syncedLyrics)return a[i];return a[0]||null})
- }).then(function(d){if(id!==S.id)return;if(d&&d.syncedLyrics)setLines(parseLRC(d.syncedLyrics),true);else if(d&&d.plainLyrics)setLines(d.plainLyrics.split("\n"),false);else $("iLy").textContent=""}).catch(function(){})}
+ function usable(d){return !!(d&&(d.syncedLyrics||d.plainLyrics))}
+ function searchLR(query){return fetch("https://lrclib.net/api/search?"+query).then(function(r){return r.ok?r.json():[]}).then(function(a){for(var i=0;i<a.length;i++)if(a[i].syncedLyrics)return a[i];for(var j=0;j<a.length;j++)if(a[j].plainLyrics)return a[j];return null})}
+ fetch("https://lrclib.net/api/get?"+q).then(function(r){return r.ok?r.json():null}).then(function(d){
+  if(usable(d))return d;
+  return searchLR("track_name="+encodeURIComponent(title)+"&artist_name="+encodeURIComponent(artist)).then(function(x){if(usable(x))return x;return searchLR("track_name="+encodeURIComponent(title))})
+ }).then(function(d){
+  if(id!==S.id)return;
+  if(d&&d.syncedLyrics){setLines(parseLRC(d.syncedLyrics),true);return}
+  if(d&&d.plainLyrics){setLines(d.plainLyrics.split("\n").filter(function(x){return x.trim()}),false);return}
+  return fetch("https://api.lyrics.ovh/v1/"+encodeURIComponent(artist)+"/"+encodeURIComponent(title)).then(function(r){return r.ok?r.json():null}).then(function(x){if(id===S.id&&x&&x.lyrics)setLines(x.lyrics.split("\n").filter(function(z){return z.trim()}),false);else if(id===S.id)$("iLy").textContent=""})
+ }).catch(function(){if(id===S.id)$("iLy").textContent=""})}
 function loadMeta(t,img){var a=document.querySelectorAll(".art"),j,ar=t.artists?t.artists.map(function(x){return x.name}).join(", "):(t.show?t.show.publisher:""),al=t.album?t.album.name:(t.show?t.show.name:"");
  for(j=0;j<a.length;j++)a[j].style.backgroundImage=img?"url("+img+")":"none";
  var ti=document.querySelectorAll(".title");for(j=0;j<ti.length;j++)ti[j].textContent=t.name;
@@ -221,7 +234,7 @@ function loadMeta(t,img){var a=document.querySelectorAll(".art"),j,ar=t.artists?
  if(img)paletteFrom(img,setPal)}
 function apply(d){var t=d.item;S.playing=!!d.is_playing;document.body.classList.toggle("track-playing",!!(S.playing&&t));S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||"off";
  $("shuf").className="pl"+(S.shuf?" on":"");$("rep").className="pl"+(S.rep!=="off"?" on":"");$("rep").textContent=S.rep==="track"?"חזרה על שיר":(S.rep==="context"?"חזרה על הכול":"חזרה");
- if(d.device&&d.device.volume_percent!=null&&Date.now()>S.volT)$("vol").value=d.device.volume_percent;
+ if(d.device&&d.device.volume_percent!=null&&Date.now()>S.volT){$("vol").value=d.device.volume_percent;$("quickVolume").value=d.device.volume_percent;}
  pp();
  if(t.id!==S.id){S.id=t.id;var im=(t.album&&t.album.images)||t.images||[];loadMeta(t,im.length?im[0].url:"");if(t.artists)loadLyrics(t);else setLines([],true)}}
 function poll(){var requestedAt=Date.now();api("GET","/me/player").then(function(r){if(r.status===204||r.status===202)return null;return r.ok?r.json():null}).then(function(d){if(d&&d.item){if(d.is_playing&&typeof d.progress_ms==="number")d.progress_ms+=Math.max(0,Date.now()-requestedAt);apply(d)}}).catch(function(e){if(String(e.message)==="no token")showSetup("נדרש חיבור מחדש")}).then(function(){setTimeout(poll,S.playing?3000:8000)})}
@@ -233,6 +246,7 @@ $("next").onclick=function(){api("POST","/me/player/next").then(function(){setTi
 $("prev").onclick=function(){api("POST","/me/player/previous").then(function(){setTimeout(poll,600)})};
 $("track").onclick=function(e){if(!S.duration)return;var r=$("rail").getBoundingClientRect(),ms=Math.round(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*S.duration);S.progress=ms;S.stamp=Date.now();put("/me/player/seek?position_ms="+ms)};
 $("vol").oninput=function(){var v=this.value;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put("/me/player/volume?volume_percent="+v)},200)};
+$("quickVolume").oninput=function(){var v=this.value;$("vol").value=v;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put("/me/player/volume?volume_percent="+v)},200)};
 $("shuf").onclick=function(){S.shuf=!S.shuf;this.className="pl"+(S.shuf?" on":"");put("/me/player/shuffle?state="+S.shuf)};
 $("rep").onclick=function(){S.rep=S.rep==="off"?"context":(S.rep==="context"?"track":"off");put("/me/player/repeat?state="+S.rep,null,poll)};
 function loadDevs(){api("GET","/me/player/devices").then(function(r){return r.ok?r.json():null}).then(function(d){if(!d)return;var bx=$("devs");bx.innerHTML="";
