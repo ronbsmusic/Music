@@ -53,12 +53,9 @@ box-shadow:0 16px 34px rgba(0,0,0,.48),0 0 34px -14px var(--c1)}
 #ctl button.m{width:54px;height:54px}
 svg{width:18px;height:18px;fill:#fff;vertical-align:middle}
 #tabs{position:absolute;bottom:20px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);display:flex;padding:5px;border-radius:30px;transition:opacity 1.2s}
-#quickVol{position:fixed;left:calc(50% + 145px);bottom:27px;z-index:7;display:flex;align-items:center;gap:8px;width:170px;padding:10px 12px;border-radius:24px;background:rgba(24,24,30,.78);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-#quickVol .speaker{font-size:16px;line-height:1;opacity:.9}#quickVol input{width:100%;min-width:0;flex:1}
-@media(max-width:700px){#quickVol{left:calc(50% + 112px);width:calc(50vw - 126px);min-width:78px;padding:9px 8px;gap:5px;bottom:25px}#quickVol .speaker{font-size:14px}}
 .tab{background:transparent;border:0;border-radius:24px;padding:9px 22px;font-size:17px}
 .tab.on{background:rgba(255,255,255,.18)}
-.sheet{position:absolute;left:50%;bottom:78px;width:420px;margin-left:-210px;max-height:62%;padding:20px;border-radius:26px;background:rgba(20,20,28,.55);display:none;flex-direction:column;z-index:5}
+.sheet{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);width:min(420px,calc(100vw - 24px));margin-left:0;max-height:62%;padding:20px;border-radius:26px;background:rgba(20,20,28,.55);display:none;flex-direction:column;z-index:5}
 .sheet.show{display:flex}
 .sheet h3{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--dim)}
 #list{overflow:auto;-webkit-overflow-scrolling:touch}
@@ -68,7 +65,7 @@ svg{width:18px;height:18px;fill:#fff;vertical-align:middle}
 #addRow{display:flex;margin-top:10px}
 #inp{flex:1;background:rgba(255,255,255,.1);border:0;border-radius:14px;padding:11px 14px;color:#fff;font-size:16px;font-family:inherit;-webkit-user-select:text;user-select:text;margin-right:8px;direction:auto}
 #add,#pwr{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:14px;font-size:20px;padding:0 16px}
-.lamp{display:flex;align-items:center;margin-top:12px;font-size:14px}.lamp label{width:70px;direction:rtl}.lamp input{flex:1}
+.lamp{display:flex;align-items:center;margin-top:12px;font-size:14px}.lamp label{width:70px;direction:rtl}.lamp input{flex:1;min-width:0}#ct{-webkit-appearance:none;appearance:none;height:22px;background:transparent;outline:0}#ct::-webkit-slider-runnable-track{height:7px;border-radius:8px;background:linear-gradient(90deg,#ffb52e 0%,#ffe9a6 38%,#fff 100%)}#ct::-moz-range-track{height:7px;border-radius:8px;background:linear-gradient(90deg,#ffb52e 0%,#ffe9a6 38%,#fff 100%)}#ct::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:-5.5px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.18);box-shadow:0 1px 5px rgba(0,0,0,.35)}#ct::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.18);box-shadow:0 1px 5px rgba(0,0,0,.35)}
 #pwr{height:42px;margin-top:4px}#pwr.on{background:#fff;color:#000}
 #idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.8s ease;padding:24px;text-align:center;z-index:2;background:rgba(0,0,0,.08)}
 body.idle #idle{opacity:1;pointer-events:auto;transition:opacity 1.8s ease}
@@ -80,7 +77,6 @@ body.idle #idle{opacity:1;pointer-events:auto;transition:opacity 1.8s ease}
 #lyrics div.on{-webkit-transform:none;transform:none}
 .pl{flex:1;border:0;border-radius:14px;padding:12px 6px;margin:0 4px;background:rgba(255,255,255,.12);color:#fff;font-size:16px;font-family:inherit}.pl.on{background:#fff;color:#000}
 .dev{display:block;width:100%;text-align:start;border:0;border-radius:14px;padding:12px 14px;margin:5px 0;font-size:16px;font-family:inherit;background:rgba(255,255,255,.1);color:#fff}.dev.on{background:#fff;color:#000}
-#vol{-webkit-appearance:none;appearance:none;height:10px;border-radius:5px;background:rgba(255,255,255,.22);outline:0}#vol::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:#fff}
 #cfg{position:fixed;bottom:14px;right:14px;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#fff;opacity:.2;font-size:20px;z-index:6}
 #nv{position:fixed;width:2px;height:2px;opacity:.02;pointer-events:none;top:0;left:0}
 #setup{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;display:none;align-items:center;justify-content:center;padding:6vw;z-index:20;overflow:auto;-webkit-user-select:text}
@@ -90,7 +86,6 @@ body.idle #idle{opacity:1;pointer-events:auto;transition:opacity 1.8s ease}
 #setup textarea{height:90px;font-size:15px}#setup button{font-size:17px;font-weight:700;padding:13px 24px;border:0;border-radius:12px;background:#2c2c2e;color:#fff;margin-bottom:8px}#go{background:#fa586a!important}
 #err{color:#ff8a7a;margin:8px 0}#setup hr{border:0;border-top:1px solid #2c2c2e;margin:22px 0}
 html.ov #app,html.ov #idle,html.ov #tabs,html.ov .blob,html.ov .sheet,html.ov #cfg{visibility:hidden!important}
-.sheet{left:auto;right:34px;margin-left:0;width:340px;max-height:56%}
 html,body{overscroll-behavior:none}body{position:fixed;top:0;left:0;width:100%;height:100%}
 
 /* שדרוגים: מצב שינה ידני, חלונית משימות נפרדת ותוכן גדול יותר */
@@ -116,11 +111,10 @@ body.idle.track-playing #idle .idle-empty{display:none}
 #idle .idle-empty{font-size:13px;color:rgba(255,255,255,.28);margin-top:8px}
 #idle .art{width:min(310px,46vh,54vw);height:min(310px,46vh,54vw)}
 #idle #iLy{max-width:90vw;max-height:2.8em;overflow:hidden}
-#sT.sheet{position:fixed;left:auto;right:22px;top:92px;bottom:auto;width:min(370px,calc(100vw - 36px));max-height:calc(100vh - 170px);z-index:10;border-radius:24px;background:rgba(20,20,28,.94);box-shadow:0 20px 70px rgba(0,0,0,.35)}
 #sT #list{min-height:24px;max-height:calc(100vh - 270px)}
 #sT h3{font-size:16px;color:rgba(255,255,255,.72)}
 #sT #inp{min-width:0}
-@media(max-width:700px){#app{padding:20px 18px 82px}#main{gap:12px}#left{width:46%}.art{width:min(260px,34vw);height:min(260px,34vw);min-width:0;min-height:0}.title{font-size:clamp(21px,3.4vw,27px)}.sub{font-size:clamp(14px,2vw,17px)}#lyrics div{font-size:clamp(23px,3.4vw,30px);padding:8px 6px}#sT.sheet{right:12px;top:76px;width:min(360px,calc(100vw - 24px))}#idle .art{width:min(250px,38vh,58vw);height:min(250px,38vh,58vw)}}
+@media(max-width:700px){#app{padding:20px 18px 82px}#main{gap:12px}#left{width:46%}.art{width:min(260px,34vw);height:min(260px,34vw);min-width:0;min-height:0}.title{font-size:clamp(21px,3.4vw,27px)}.sub{font-size:clamp(14px,2vw,17px)}#lyrics div{font-size:clamp(23px,3.4vw,30px);padding:8px 6px}#idle .art{width:min(250px,38vh,58vw);height:min(250px,38vh,58vw)}}
 @media(max-height:600px){#idle .art{width:min(190px,34vh,42vw);height:min(190px,34vh,42vw)}#idle .idle-clock{margin-bottom:12px}#idle .title{margin-top:12px}#idle #iLy{margin-top:8px}}
 
 </style>
@@ -158,9 +152,8 @@ body.idle.track-playing #idle .idle-empty{display:none}
  <div class="lamp"><label>בהירות</label><input id="br" type="range" min="1" max="100" value="50"></div>
  <div class="lamp"><label>חמימות</label><input id="ct" type="range" min="0" max="100" value="50"></div></div>
 
-<div id="sP" class="sheet glass"><h3>עוצמה</h3><input type="range" id="vol" min="0" max="100" value="50" style="width:100%"><div style="display:flex;margin-top:14px"><button class="pl" id="shuf">ערבוב</button><button class="pl" id="rep">חזרה</button></div><h3 style="margin-top:16px">רמקול</h3><div id="devs"></div></div>
+<div id="sP" class="sheet glass"><h3>עוצמה</h3><div style="display:flex;margin-top:14px"><button class="pl" id="shuf">ערבוב</button><button class="pl" id="rep">חזרה</button></div><h3 style="margin-top:16px">רמקול</h3><div id="devs"></div></div>
 <div id="tabs" class="glass"><button class="tab on" data-s="">🎵</button><button class="tab" data-s="sT">✓</button><button class="tab" data-s="sL">💡</button><button class="tab" data-s="sP">🔊</button></div>
-<div id="quickVol" aria-label="עוצמת שמע"><span class="speaker">🔉</span><input type="range" id="quickVolume" min="0" max="100" value="50" aria-label="עוצמת שמע"></div>
 <button id="sleepBtn" aria-label="מצב שינה" title="מצב שינה">☾</button><button id="cfg">&#9881;</button>
 <video id="nv" muted loop playsinline src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAM3bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAA+gAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAmF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+gAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPoAAAAAAABAAAAAAHZbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAAKABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABhG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAURzdGJsAAAAuHN0c2QAAAAAAAAAAQAAAKhhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAALmF2Y0MBQsAK/+EAFmdCwArZHsBEAAADAAQAAAMAKDxImSABAAVoy4PLIAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAABVIAAAVSAAAABhzdHRzAAAAAAAAAAEAAAAFAAAIAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAAFAAAAAQAAAChzdHN6AAAAAAAAAAAAAAAFAAACgwAAAAoAAAAKAAAACQAAAAkAAAAUc3RjbwAAAAAAAAABAAADZwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAAKxbWRhdAAAAnAGBf//bNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAALZYiEBHyYoAA2I4AAAAAGQZo4CPqAAAAABkGaVAI+oAAAAAVBmmAQ9QAAAAVBmoA/1A=="></video>
 <div id="setup"><div class="box"><h1>חיבור לספוטיפיי</h1><p>Redirect URI באפליקציית ספוטיפיי:</p><code id="ruri"></code><input id="cid" placeholder="Client ID" autocapitalize="off" autocorrect="off" spellcheck="false"><button id="go">התחברות</button><div id="err"></div><hr>
@@ -234,7 +227,6 @@ function loadMeta(t,img){var a=document.querySelectorAll(".art"),j,ar=t.artists?
  if(img)paletteFrom(img,setPal)}
 function apply(d){var t=d.item;S.playing=!!d.is_playing;document.body.classList.toggle("track-playing",!!(S.playing&&t));S.progress=d.progress_ms||0;S.stamp=Date.now();S.duration=t.duration_ms;S.shuf=!!d.shuffle_state;S.rep=d.repeat_state||"off";
  $("shuf").className="pl"+(S.shuf?" on":"");$("rep").className="pl"+(S.rep!=="off"?" on":"");$("rep").textContent=S.rep==="track"?"חזרה על שיר":(S.rep==="context"?"חזרה על הכול":"חזרה");
- if(d.device&&d.device.volume_percent!=null&&Date.now()>S.volT){$("vol").value=d.device.volume_percent;$("quickVolume").value=d.device.volume_percent;}
  pp();
  if(t.id!==S.id){S.id=t.id;var im=(t.album&&t.album.images)||t.images||[];loadMeta(t,im.length?im[0].url:"");if(t.artists)loadLyrics(t);else setLines([],true)}}
 function poll(){var requestedAt=Date.now();api("GET","/me/player").then(function(r){if(r.status===204||r.status===202)return null;return r.ok?r.json():null}).then(function(d){if(d&&d.item){if(d.is_playing&&typeof d.progress_ms==="number")d.progress_ms+=Math.max(0,Date.now()-requestedAt);apply(d)}}).catch(function(e){if(String(e.message)==="no token")showSetup("נדרש חיבור מחדש")}).then(function(){setTimeout(poll,S.playing?3000:8000)})}
@@ -245,8 +237,6 @@ $("pp").onclick=function(){S.progress=curMs();S.stamp=Date.now();S.playing=!S.pl
 $("next").onclick=function(){api("POST","/me/player/next").then(function(){setTimeout(poll,600)})};
 $("prev").onclick=function(){api("POST","/me/player/previous").then(function(){setTimeout(poll,600)})};
 $("track").onclick=function(e){if(!S.duration)return;var r=$("rail").getBoundingClientRect(),ms=Math.round(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*S.duration);S.progress=ms;S.stamp=Date.now();put("/me/player/seek?position_ms="+ms)};
-$("vol").oninput=function(){var v=this.value;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put("/me/player/volume?volume_percent="+v)},200)};
-$("quickVolume").oninput=function(){var v=this.value;$("vol").value=v;S.volT=Date.now()+4000;clearTimeout(S.vt);S.vt=setTimeout(function(){put("/me/player/volume?volume_percent="+v)},200)};
 $("shuf").onclick=function(){S.shuf=!S.shuf;this.className="pl"+(S.shuf?" on":"");put("/me/player/shuffle?state="+S.shuf)};
 $("rep").onclick=function(){S.rep=S.rep==="off"?"context":(S.rep==="context"?"track":"off");put("/me/player/repeat?state="+S.rep,null,poll)};
 function loadDevs(){api("GET","/me/player/devices").then(function(r){return r.ok?r.json():null}).then(function(d){if(!d)return;var bx=$("devs");bx.innerHTML="";
@@ -281,15 +271,13 @@ window.onresize=function(){cur=-1;ui()};
 
 /* מצב שינה ידני בלבד — אין מעבר אוטומטי אחרי 30 שניות */
 var wakeLock=null;
-function requestWakeLock(){if(!("wakeLock" in navigator)||document.visibilityState!=="visible")return;
+function requestWakeLock(){if(!document.body.classList.contains("idle")||!("wakeLock" in navigator)||document.visibilityState!=="visible"||wakeLock)return;
  navigator.wakeLock.request("screen").then(function(lock){wakeLock=lock;lock.addEventListener("release",function(){if(wakeLock===lock)wakeLock=null})}).catch(function(){});}
 function enterSleep(){show("");document.body.classList.add("idle");requestWakeLock()}
 function exitSleep(){document.body.classList.remove("idle");if(wakeLock){wakeLock.release().catch(function(){});wakeLock=null}}
 $("sleepBtn").addEventListener("click",enterSleep);
 $("wakeBtn").addEventListener("click",exitSleep);
-document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")requestWakeLock()});
-document.addEventListener("pointerdown",function(){if(document.visibilityState==="visible")requestWakeLock()},{passive:true});
-document.addEventListener("touchstart",function(){if(document.visibilityState==="visible")requestWakeLock()},{passive:true});
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&document.body.classList.contains("idle"))requestWakeLock()});
 
 /* טאבים */
 function show(id){["sT","sL","sP"].forEach(function(s){$(s).className="sheet glass"+(s===id?" show":"")});
